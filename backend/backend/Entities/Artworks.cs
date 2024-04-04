@@ -14,12 +14,8 @@ namespace backend.Entities
         public double Price { get; set; }
         public string? ImageFile { get; set; } // Thêm cột ImageFile kiểu BLOB
         public ICollection<ArtworkTag> ArtworkTag { get; set; }
-<<<<<<< HEAD
         public Artworks()
         {
-=======
-        public Artworks(){
->>>>>>> NhanHT
             Purchasable = false;
         }
 
