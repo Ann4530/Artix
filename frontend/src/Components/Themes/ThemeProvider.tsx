@@ -2,18 +2,25 @@ import React, {useState,useEffect} from 'react'
 
 
 //type Theme =  string
-const lightimages = [
-  "/sliderImages/day1.png",
-  "/sliderImages/day2.png",
-  "/sliderImages/day3.png",
-  "/sliderImages/day4.png",
-  ]
+// const lightimages = [
+//   "/sliderImages/day1.png",
+//   "/sliderImages/day2.png",
+//   "/sliderImages/day3.png",
+//   "/sliderImages/day4.png",
+//   ]
+// const darkimages = [
+//   "/sliderImages/night1.png",
+//   "/sliderImages/night2.png",
+//   "/sliderImages/night3.png",
+//   "/sliderImages/night4.png",
+//   ]
 const darkimages = [
-  "/sliderImages/night1.png",
-  "/sliderImages/night2.png",
-  "/sliderImages/night3.png",
-  "/sliderImages/night4.png",
-  ]
+  "/images/dark.jpg",
+]
+const lightimages = [
+  "/images/light.jpg",
+]
+
 // public folder is in the same order as the src. 
 //To import images from public: started the path from inside the public folder.
 // ex: /<imagefolder>/image.png
@@ -25,6 +32,7 @@ const Theme = {
     color:'#0096FA',
     backgroundColor:'#FFF',
     backgroundColor2:'#06b8eb',
+    backgroundColor3:'#CEE1F2',
     rgbBackgroundColor:"255, 255, 255",
     backgroundImage: lightimages,
     transition: "all 1s ease-in-out",
@@ -39,6 +47,7 @@ const Theme = {
     color:'#61dafb',
     backgroundColor:'#1a1a2e',
     backgroundColor2:'#1a1a2e',
+    backgroundColor3:'#cbe7efe6',
     rgbBackgroundColor:"26, 26, 46",
     backgroundImage: darkimages,
     transition: "all 1s ease-in-out",

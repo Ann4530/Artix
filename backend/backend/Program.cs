@@ -1,4 +1,5 @@
 ﻿using backend.Entities;
+using backend.Service;
 
 namespace backend;
 
@@ -22,6 +23,10 @@ public class Program
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        // Đăng ký dịch vụ IVnPayService với lớp VnPayService
+        builder.Services.AddTransient<IVnPayService, VnPayService>();
+        // Thêm đăng ký IMemoryCache vào IServiceCollection
+        builder.Services.AddMemoryCache();
         builder.Services.AddDbContext<ApplicationDbContext>();
         builder.Services.AddLogging(logging =>
         {

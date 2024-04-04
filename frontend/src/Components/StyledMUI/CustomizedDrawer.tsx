@@ -17,7 +17,7 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import StarsIcon from '@mui/icons-material/Stars';
 import MarkunreadMailboxRoundedIcon from '@mui/icons-material/MarkunreadMailboxRounded';
 import DesignServicesRoundedIcon from '@mui/icons-material/DesignServicesRounded';
-import CropOriginalIcon from '@mui/icons-material/CropOriginal';
+import ShopIcon from '@mui/icons-material/Shop';
 import {ThemeContext} from '../Themes/ThemeProvider.tsx'
 import AppLogo from './AppLogo.jsx';
 import CustomizedButton from './CustomizedListedButton.tsx';
@@ -30,7 +30,7 @@ export default function CustomizedDrawer() {
     SetDrawer(!drawer)
   }
 
-  const HomePage = ['View All', 'Hot Topic', 'You Loved These', 'Explore']
+  const HomePage = ['View All', 'Hot Topic', 'You Loved These', 'Explore', 'Shop']
   const Personal = ['Transaction History', 'Your Commisions', 'Your Requests']
   const linkListPersonal = [
     'transaction',
@@ -43,8 +43,8 @@ export default function CustomizedDrawer() {
     `/characters`,
     `artwordrecomment`,
     `artwordrecomment`,
-
-
+    `artwordrecomment`,
+    `artshop`,
   ];
 
   const IconListHomePage = [
@@ -52,6 +52,8 @@ export default function CustomizedDrawer() {
     <WhatshotIcon/>,
     <StarsIcon/>,
     <ExploreIcon/>,
+    <ShopIcon/>,
+
   ]
   const IconListPersonal = [
     <RestoreIcon/>,

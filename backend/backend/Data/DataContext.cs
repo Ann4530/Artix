@@ -48,8 +48,13 @@ namespace backend.Entities
             modelBuilder.Entity<ArtworkTag>()
             .HasKey(t => new { t.ArtworkID, t.TagID });
 
+<<<<<<< HEAD
             
 
+=======
+            // ... Các cấu hình khác
+            modelBuilder.Entity<OrderDetail>().Ignore(o => o.email);
+>>>>>>> NhanHT
             base.OnModelCreating(modelBuilder);
         }
     }

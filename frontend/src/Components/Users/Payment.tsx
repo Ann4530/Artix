@@ -1,3 +1,4 @@
+
 import CustomizedImageButton from '../StyledMUI/CustomizedImageButton.jsx'
 import '../../css/Payment.css'
 import { ThemeContext } from '../Themes/ThemeProvider.tsx';
@@ -191,3 +192,4 @@ export default function Payment() {
     </div>
   )
 }
+

@@ -55,7 +55,11 @@ namespace backend.Controllers
             var smtp = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
+<<<<<<< HEAD
                 Credentials = new NetworkCredential("anh0180666@huce.edu.vn", "Anh686868@"),
+=======
+                Credentials = new NetworkCredential("NhanHTSE171117@fpt.edu.vn", "Nhan@2809"),
+>>>>>>> NhanHT
                 EnableSsl = true,
             };
 

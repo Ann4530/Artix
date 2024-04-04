@@ -45,7 +45,7 @@ export default function Menu() {
   }
   return (
     <div>
-      <Popper open={isOpen} transition>
+      <Popper open={isOpen ? true : false} transition>
         {({ TransitionProps, placement }) => (
           <Fade {...TransitionProps} >
             <Box>

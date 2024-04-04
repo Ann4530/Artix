@@ -152,7 +152,11 @@ public class OrderDetailController : ControllerBase
         return Ok(orderDetails);
     }
 
+<<<<<<< HEAD
     // POST: api/OrderDetail
+=======
+        // POST: api/OrderDetail
+>>>>>>> NhanHT
     [HttpPost]
     public async Task<ActionResult<OrderDetail>> PostOrderDetail(OrderDetail orderDetail)
     {

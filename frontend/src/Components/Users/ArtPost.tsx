@@ -3,25 +3,26 @@ import { useNavigate, useParams } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-import TestIcon from './TestIcon.jsx';
-import Comments from './Comments.jsx';
+import TestIcon from '../TestIcon.jsx';
+import Comments from '../Comments.jsx';
 import Box from '@mui/material/Box';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import { ListTag } from '../share/ListofTag.js';
-import { ThemeContext } from './Themes/ThemeProvider.tsx';
-import { GetArtById } from '../API/ArtworkAPI/GET.tsx';
-import { Artwork } from '../Interfaces/ArtworkInterfaces.ts';
-import { GetCreatorByID } from '../API/UserAPI/GET.tsx';
-import { Creator } from '../Interfaces/UserInterface.ts';
+import { ListTag } from '../../share/ListofTag.js';
+import { ThemeContext } from '../Themes/ThemeProvider.tsx';
+import { GetArtById } from '../../API/ArtworkAPI/GET.tsx';
+import { Artwork } from '../../Interfaces/ArtworkInterfaces.ts';
+import { GetCreatorByID } from '../../API/UserAPI/GET.tsx';
+import { Creator } from '../../Interfaces/UserInterface.ts';
 import Chip from '@mui/material/Chip';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { Button, Divider } from '@mui/material';
-import { Tag } from '../Interfaces/TagInterface';
-import { GetTagByArtId } from '../API/TagAPI/GET.tsx';
-import { Watermark } from './StyledMUI/AppLogo.jsx';
+import { Tag } from '../../Interfaces/TagInterface.ts';
+import { GetTagByArtId } from '../../API/TagAPI/GET.tsx';
+import { Watermark } from '../StyledMUI/AppLogo.jsx';
 import { Link } from 'react-router-dom';
-import { DeleteArtById } from '../API/ArtworkAPI/DELETE.tsx';
+import { DeleteArtById } from '../../API/ArtworkAPI/DELETE.tsx';
+import ArtShopConfirm from './ArtShopConfirm.jsx';
 
 export default function PostWork() {
   const colors = ["#82c87e", "#c07ec8", "#c89c7e", "#7E8DC8", "#C07EC8", "#C87E8A"];
@@ -61,6 +62,10 @@ export default function PostWork() {
     console.info('You clicked the Chip.');
   };
 
+  const handleOpen = () => {
+    setOpen(!open);
+  }
+
   const handleDelete = async()=>{
     try{
       setLoading(true)
@@ -99,7 +104,9 @@ export default function PostWork() {
         <div className='info-postwork'>
           {artwork?.purchasable ? <Watermark /> : ""}
           <div className='imgpost' style={{ backgroundColor: theme.hoverBackgroundColor }}>
-            <img alt={artwork?.artworkName} src={`data:image/jpeg;base64,${artwork?.imageFile}`} />
+            
+            <img style = {{pointerEvents: artwork?.purchasable ? "none" : "auto" }} alt={artwork?.artworkName} src={`data:image/jpeg;base64,${artwork?.imageFile}`} /> 
+           
           </div>
           <Divider orientation='vertical' />
           <div className='contentpost'>
@@ -137,9 +144,7 @@ export default function PostWork() {
             }
             <div style={{ margin: 'auto 5px', }}>
               {artwork?.purchasable ?
-                <Link to={`payment`}>
-                  <Chip icon={<AttachMoneyIcon />} label={artwork?.price} onClick={handleClick} style={{ fontSize: '20px', padding: '20px', fontWeight: '600', backgroundColor: '#61dafb' }} />
-                </Link>
+                  <Chip icon={<AttachMoneyIcon />} label={artwork?.price} onClick={handleOpen} style={{ fontSize: '20px', padding: '20px', fontWeight: '600', backgroundColor: '#61dafb' }} />
                 : ""}
             </div>
           </div>
@@ -148,6 +153,7 @@ export default function PostWork() {
           </div>
         </Box>
       </div >
+          {open && (<ArtShopConfirm open={open} handleClose={handleOpen} item={artwork??null} />)}
     </Box >
   )
 }
