@@ -141,8 +141,6 @@ export default function PackagePage() {
                                 index === 1 ? premiumCardStyle(service) : ""
                         )
                     })}
-
-
                 </Box>
             </Box>
             <PackagePaymentConfirm open={open} handleClose={handleOpen} item={currentPackage} />

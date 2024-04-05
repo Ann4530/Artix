@@ -47,9 +47,10 @@ export default function PostWork() {
       setArtwork(artworkbyid)
       const paystatus = await GetArtsPaymentStatus(savedUser?.creatorID,artworkbyid.artworkID)
       setStatus(paystatus)
+      setLoading(false)
       const creator = await GetCreatorByID(artworkbyid ? artworkbyid.creatorID : "1")
       setCreator(creator)
-      setLoading(false)
+      
     }
     getArtWork()
   }, [id])
