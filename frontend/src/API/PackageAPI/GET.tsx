@@ -1,13 +1,22 @@
 import axios from 'axios'
-import { Package } from '../../Interfaces/Package';
+import { Package,CurrentPackage } from '../../Interfaces/Package';
 
 const packageUrl = `https://localhost:7233/api/Package`
+const currentPackage = ``
 
 export async function GetPackage() {
     try{
         let packList:Package[] = await axios.get(packageUrl).then(response => response.data)
         return packList
-        
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  export async function GetCurrentPackageByCreatorID(id: string) {
+    try{
+        let pack:CurrentPackage = await axios.get(currentPackage+`${id}`).then(response => response.data)
+        return pack
     }catch(err){
       console.log(err)
     }
