@@ -10,7 +10,6 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Order } from '../../share/Order.js';
 import TablePagination from '@mui/material/TablePagination';
 import PhotoIcon from '@mui/icons-material/Photo';
 import { useState } from 'react';
@@ -48,24 +47,14 @@ export default function ManageOrders() {
     getOrderList()
   }, [open3])
 
-  const handleGetBill = async (id: string) => {
-    let bill: string | undefined = await GetOrderDetaiPaymentlID(id)
-    SetBill(bill)
-  }
-
-  const handleGetQR = async (id: string) => {
-    let orderHeader: OrderHeaderExtended = await GetOrderHeaderByID(id)
-    let payment: Payment = await GetPaymentAccount(orderHeader.accountID)
-    SetPayment(payment)
-  }
 
   const handleConfirmations = async (id: string) => {
     setLoading(true)
     try {
       let orderHeader: OrderHeaderExtended = await GetOrderHeaderByID(id)
       const updateOrderHeader: OrderHeader = {
-        buyerID:orderHeader.buyerID,
-        sellerID:orderHeader.sellerID,
+        buyerID: orderHeader.buyerID,
+        sellerID: orderHeader.sellerID,
         orderID: orderHeader.orderID,
         confirmation: true
       }
@@ -80,7 +69,7 @@ export default function ManageOrders() {
   }
 
 
-  
+
   const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
     // Ignore close events from clicking away
     if (reason === 'clickaway') {
@@ -98,11 +87,9 @@ export default function ManageOrders() {
 
   // Handle change rows per page
   const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value);
+    setRowsPerPage(event.target.value);
     setPage(0); // Reset page number back to 0 when changing rows per page
   };
-
-
   // Calculate the portion of users to display based on paginatio
   //Backdrop Mui
 
@@ -121,7 +108,7 @@ export default function ManageOrders() {
     setSelectedOrderID(orderDetailID);
     setOpen2(true);
   };
-
+  let paginatedOrder = orderList?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
     <Container style={{ marginLeft: '300px' }}>
@@ -138,21 +125,17 @@ export default function ManageOrders() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table" >
           <TableHead>
             <TableRow style={{ backgroundColor: '#0b81ff' }}>
-
               <TableCell style={{ color: 'white' }} align="left">Order ID</TableCell>
               <TableCell style={{ color: 'white' }} align="left">Buyer Name</TableCell>
               <TableCell style={{ color: 'white' }} align="left">Seller Name</TableCell>
               <TableCell style={{ color: 'white' }} align="left">Pice</TableCell>
               <TableCell style={{ color: 'white' }} align="left">Cost</TableCell>
-              <TableCell style={{ color: 'white' }} align="left">Transaction image</TableCell>
               <TableCell style={{ color: 'white' }} align="left">Date</TableCell>
-              <TableCell style={{ color: 'white' }} align="left">Account Artist</TableCell>
               <TableCell style={{ color: 'white' }} align="left">Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            
-            {orderList?.map((order) => (
+            {paginatedOrder?.map((order) => (
               <TableRow
                 key={order.orderID}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -165,16 +148,13 @@ export default function ManageOrders() {
                 <TableCell align="left">{order.sellerName}</TableCell>
                 <TableCell align="left">{order.price}$</TableCell>
                 <TableCell align="left">{order.price ?? 0 * 0.9}$</TableCell>
-                <TableCell align="left"> <Button onClick={() => { handleOpen(order.orderDetailID); handleGetBill(order.orderDetailID) }}><PhotoIcon fontSize="large" style={{ marginLeft: '40px', color: 'black' }} /></Button></TableCell>
                 <TableCell align="left">{order.dateOfPurchase?.toString()}</TableCell>
-                <TableCell align="left"><Button onClick={() => { handleOpen2(order.orderDetailID); handleGetQR(order.orderID) }}><PaymentIcon fontSize="large" style={{ marginLeft: '40px', color: 'black' }} /></Button></TableCell>
-
                 {/* Payment For Creator  */}
                 <TableCell align="left">
-                  {order.orderID === orderHeader?.find(header => header.orderID === order.orderID).orderID && orderHeader?.find(header => header.orderID === order.orderID)?.confirmation===true  ? 
-                      <Button color='success'>Complete</Button>
-                   : 
-                      <Button onClick={() => handleConfirmations(order.orderID)}>Accept</Button>
+                  {order.orderID === orderHeader?.find(header => header.orderID === order.orderID).orderID && orderHeader?.find(header => header.orderID === order.orderID)?.confirmation === true ?
+                    <Button color='success'>Complete</Button>
+                    :
+                    <Button onClick={() => handleConfirmations(order.orderID)}>Accept</Button>
                   }
                 </TableCell>
 
@@ -197,17 +177,14 @@ export default function ManageOrders() {
                   <Button onClick={handleClose} style={{ fontSize: '50px', transform: 'translateY(-350px) translateX(800px)', color: 'white' }}>X</Button>
                   <img src={`data:image/jpeg;base64,${payment}`} style={{ maxWidth: '700px', height: '90vh' }} />
                 </Backdrop>
-
               </TableRow>
-
             ))}
-
           </TableBody>
         </Table>
         <TablePagination
-          rowsPerPageOptions={5}
+          rowsPerPageOptions={[5]}
           component="div"
-          count={Order.length}
+          count={orderList?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
