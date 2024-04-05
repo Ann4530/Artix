@@ -120,15 +120,6 @@ public class ArtworksController : ControllerBase
             // Tạo đối tượng ArtworkViewModel với thông tin từ Artwork và trạng thái thanh toán
             var artworkViewModel = new ArtworkViewModel
             {
-                ArtworkID = artwork.ArtworkID,
-                CreatorID = artwork.CreatorID,
-                ArtworkName = artwork.ArtworkName,
-                Description = artwork.Description,
-                DateCreated = artwork.DateCreated,
-                Likes = artwork.Likes,
-                image = artwork.ImageFile,
-                Purchasable = artwork.Purchasable,
-                Price = artwork.Price,
                 Status = isPaid
             };
 
@@ -745,7 +736,7 @@ public class ArtworksController : ControllerBase
         var notifications = await _context.Notification.Where(n => n.ArtWorkID == artworkId).ToListAsync();
         _context.Notification.RemoveRange(notifications);
         // Tiếp tục xóa các dữ liệu liên quan khác nếu cần
-
+        await _context.SaveChangesAsync();
         // Sau khi xóa các dữ liệu liên quan, xóa tác phẩm
         _context.Artworks.Remove(artwork);
         await _context.SaveChangesAsync();
