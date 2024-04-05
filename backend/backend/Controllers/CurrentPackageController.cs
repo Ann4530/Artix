@@ -38,6 +38,20 @@ namespace YourNamespace.Controllers
 
             return currentPackage;
         }
+        [HttpGet("ByCreatorID/{creatorid}")]
+        public async Task<ActionResult<CurrentPackage>> GetCurrentPackageByCreatorID(int creatorid)
+        {
+            var currentPackage = await _context.CurrentPackage
+            .Where(o => o.CreatorID == creatorid)
+            .ToListAsync();
+
+            if (currentPackage == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(currentPackage);
+        }
         // POST: api/CurrentPackage
         [HttpPost]
         public async Task<ActionResult<CurrentPackage>> PostCurrentPackage(CurrentPackage currentPackage)
