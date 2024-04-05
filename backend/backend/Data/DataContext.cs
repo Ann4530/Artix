@@ -48,11 +48,7 @@ namespace backend.Entities
 
             modelBuilder.Entity<ArtworkTag>()
             .HasKey(t => new { t.ArtworkID, t.TagID });
-<<<<<<< HEAD
 
-            // ... Các cấu hình khác
-=======
->>>>>>> BaoNDG
             modelBuilder.Entity<OrderDetail>().Ignore(o => o.email);
             base.OnModelCreating(modelBuilder);
         }
