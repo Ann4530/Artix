@@ -99,7 +99,7 @@ public class PackageController : ControllerBase
 
     // GET: api/Package/Callback
     [HttpGet("Callback")]
-    public async Task<IActionResult> PaymentCallback()
+    public async Task<IActionResult> PaymentCallbackPackage()
     {
         // Xử lý phản hồi từ VNPay
         var response = _vnPayService.PaymentExecute(Request.Query);
