@@ -33,7 +33,7 @@ export default function PackagePage() {
 
     const defaultCardStyle = (packageService: Package) => {
         return (
-            <Card className='cardDefault' sx={{ backgroundImage: 'url("/images/default.jpg")' }}>
+            <Card className='cardDefault' sx={{ backgroundImage: 'url("/images/default.jpg")'}}>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         {packageService.packageName}
@@ -44,7 +44,7 @@ export default function PackagePage() {
                     </Typography>
                     <Divider sx={{ borderColor: "grey" }} />
                     <Typography variant="body2" color="error">
-                        {packageService.packagePrice === 0 ? "Free" : packageService.packagePrice}
+                        Price: {packageService.packagePrice === 0 ? "Free" : packageService.packagePrice}
                     </Typography>
                 </CardContent>
                 <CardActionArea>
@@ -59,7 +59,7 @@ export default function PackagePage() {
     }
     const premiumCardStyle = (packageService: Package) => {
         return (
-            <Card className='cardPremium' sx={{ backgroundImage: 'url("/images/gold.jpg")' }}><CardContent>
+            <Card className='cardPremium' sx={{ backgroundImage: 'url("/images/gold.jpg")'}}><CardContent>
                 <Typography gutterBottom variant="h5" color="gold" component="div">
                     {packageService.packageName}
                 </Typography>
@@ -70,7 +70,7 @@ export default function PackagePage() {
                     </Typography>
                     <Divider sx={{ borderColor: "gold" }} />
                     <Typography variant="body2" color="error">
-                        {packageService.packagePrice === 0 ? "Free" : packageService.packagePrice + " VND"}
+                        Price: {packageService.packagePrice === 0 ? "Free" : packageService.packagePrice + " VND"}
                     </Typography>
                 </div>
             </CardContent>
