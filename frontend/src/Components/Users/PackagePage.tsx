@@ -13,6 +13,7 @@ import { GetCurrentPackageByCreatorID, GetPackage } from '../../API/PackageAPI/G
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Creator } from '../../Interfaces/UserInterface.ts';
+import PackagePaymentConfirm from './PackagePaymentConfirm.tsx';
 
 export default function PackagePage() {
     const { theme, dark } = useContext(ThemeContext)
@@ -23,6 +24,7 @@ export default function PackagePage() {
     // Check if there's any auth data saved and parse it
     const user: Creator = savedAuth ? JSON.parse(savedAuth) : null;
     // Now 'auth' contains your authentication state or null if there's nothing saved
+    const [open, setOpen] = useState(false)
     useEffect(() => {
         const getPackage = async () => {
             setLoading(true)
@@ -34,10 +36,9 @@ export default function PackagePage() {
         }
         getPackage()
     }, [])
-
-    const handleClick = () => {
-        console.log('clicked')
-    }
+  const handleOpen = () => {
+    setOpen(!open);
+  }
 
     const currentPack = () => {
         return (
@@ -63,7 +64,7 @@ export default function PackagePage() {
                     </Typography>
                 </CardContent>
                 <CardActionArea>
-                    <Button disabled={true} className='buyBtn' onClick={handleClick} size="small" color="primary">
+                    <Button disabled={true} className='buyBtn' size="small" color="primary">
                         Default
                     </Button>
                 </CardActionArea>
@@ -99,7 +100,7 @@ export default function PackagePage() {
                                 backgroundColor: "none", color: "gold", border: 'solid 1px goldenrod', borderLeft: "none", borderRight: "none",
                             },
                         }}
-                        className='buyBtn' onClick={handleClick} size="small">
+                        className='buyBtn' onClick={handleOpen} size="small">
                         {currentPackage?.packageID===2?"You're Using This Package":"Purchase"}
                     </Button>
                 </CardActionArea>
@@ -144,6 +145,7 @@ export default function PackagePage() {
 
                 </Box>
             </Box>
+            <PackagePaymentConfirm open={open} handleClose={handleOpen} item={currentPackage} />
         </div>
     )
 }

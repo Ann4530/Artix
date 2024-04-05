@@ -78,7 +78,7 @@ export default function Menu() {
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Link to={`package`}>
                 <Button>
-                  <PremiumTypography />
+                  <PremiumTypography pack={pack} />
                 </Button>
               </Link>
               {user === null ? <LoginButton /> : ""}
