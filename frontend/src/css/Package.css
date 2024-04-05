@@ -12,6 +12,7 @@
 
 /* Default card */
 .cardDefault{
+  position: relative;
     min-width: 350px;
     min-height: 500px;
     max-width: 350px;
@@ -20,7 +21,9 @@
     flex-direction: column;
     justify-content: center;
     transition: 0.5s ease-in-out;
+    box-sizing: border-box;
 }
+
 
 .cardDefault:hover{
     scale: 120%;
