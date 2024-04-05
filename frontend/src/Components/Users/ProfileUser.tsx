@@ -224,15 +224,16 @@ export default function ProfileUser() {
     return (
       <ImageList variant="masonry" cols={4} gap={8}>
         {artworks.map((work) => (
+          <Link to={`../artwork/${work.artworkID}`}>
           <ImageListItem key={work.artworkID}>
-            <Link to={`../artwork/${work.artworkID}`}>
+            
               <img
                 src={`data:image/jpeg;base64,${work.imageFile}`}
                 alt={work.artworkName}
                 loading="lazy"
               />
-            </Link >
-          </ImageListItem >
+            
+          </ImageListItem ></Link >
         ))
         }
       </ImageList >
