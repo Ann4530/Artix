@@ -43,7 +43,7 @@ export default function RecommendedWords({ artworkList, user }) {
                     : ""}
                   <CardMedia
                     component="img"
-                    style={{ objectFit: "fill", width: '15vw', height: '15vw', borderRadius: '5px', minWidth: '182px', minHeight: '182px' }}
+                    style={{ pointerEvents:'none', objectFit:'cover', width: '15vw', height: '15vw', borderRadius: '5px', minWidth: '182px', minHeight: '182px' }}
                     image={work.imageFile && work.imageFile.length > 0 ? `data:image/jpeg;base64,${work.imageFile}` : "/images/loadingImages.gif"}
                     alt={work.artworkName}
                     loading="lazy"

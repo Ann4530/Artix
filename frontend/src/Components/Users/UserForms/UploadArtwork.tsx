@@ -89,7 +89,7 @@ function UploadArtwork() {
                 <CustomizedTextField
                     sx={{ float: 'right' }}
                     name="price"
-                    label="Price"
+                    label="Price(Unit is VND)"
                     value={formik.values.price}
                     onChange={formik.handleChange}
                     fullWidth
