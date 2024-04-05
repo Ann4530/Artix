@@ -9,7 +9,6 @@ import Comments from '../Comments.jsx';
 import Box from '@mui/material/Box';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import { ListTag } from '../../share/ListofTag.js';
 import { ThemeContext } from '../Themes/ThemeProvider.tsx';
 import { GetArtById, GetArtsPaymentStatus } from '../../API/ArtworkAPI/GET.tsx';
 import { Artwork, ArtworkPaymentStatus, DownloadArtwork } from '../../Interfaces/ArtworkInterfaces.ts';
