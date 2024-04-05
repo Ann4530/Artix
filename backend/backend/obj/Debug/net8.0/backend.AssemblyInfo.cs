@@ -14,11 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+57933a921dedeae757eb434b5b7093b02778f964")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c68b57e0f27ae5dc854ac236c490b9f2cc7aed2f")]
->>>>>>> THUCVIP
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+326f9f6387fda1879f1fb38b138b9e929fa5a95c")]
 [assembly: System.Reflection.AssemblyProductAttribute("backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
