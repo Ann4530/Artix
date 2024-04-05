@@ -42,8 +42,7 @@ namespace YourNamespace.Controllers
         public async Task<ActionResult<CurrentPackage>> GetCurrentPackageByCreatorID(int creatorid)
         {
             var currentPackage = await _context.CurrentPackage
-            .Where(o => o.CreatorID == creatorid)
-            .ToListAsync();
+                .FirstOrDefaultAsync(o => o.CreatorID == creatorid);
 
             if (currentPackage == null)
             {
@@ -52,6 +51,7 @@ namespace YourNamespace.Controllers
 
             return Ok(currentPackage);
         }
+
         // POST: api/CurrentPackage
         [HttpPost]
         public async Task<ActionResult<CurrentPackage>> PostCurrentPackage(CurrentPackage currentPackage)
