@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Switch from '@mui/material/Switch';
+import { faGem } from '@fortawesome/free-solid-svg-icons';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
@@ -13,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthenContext.tsx';
 import { Creator } from '../../Interfaces/UserInterface';
 import { LightDarkSwitch } from './CustomizedLightDarkSwitch.tsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 //Create an interface for your function to assign types to its props
 interface CustomizedDropdownProps {
@@ -93,11 +95,65 @@ export default function CustomizedDropdown({ user, handleClickAsGuest }: Customi
           <DropdownContent />
         </Box>
       </CustomizedMenu >
-
     )
   }
+
+  const vipEffect = {
+    zIndex: 1000,
+    textAlign: 'center',
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    bgcolor: "gold",
+    padding: "2px 6px",
+    borderRadius: "4px",
+    transform: "translate(-45%, 25%)", // Adjusts the position to center at bottom-right of the icon
+    typography: "body2",
+    fontWeight: "bold",
+    color: "black", // Text color against the gold background for contrast
+    width: "auto",
+    height: "auto",
+    display: "flex",
+    justifyCotents: "space-between",
+    "&:after": { // Shiny gradient overlay
+      content: '" "',
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundImage: "linear-gradient(45deg, rgba(255,255,255,0.6), transparent)",
+      opacity: 0.5,
+      borderRadius: "inherit",
+    },
+    //Blinking animation
+    animation: "blink-animation 15s infinite", // Apply the blink animation
+    // Define keyframes for the blinking animation
+    "@keyframes blink-animation": {
+      "0%, 100%": {
+        bgcolor: "gold",
+        color: "black",
+        boxShadow: "0 0 8px rgba(255, 215, 0, 0.6)",
+      },
+      "50%": {
+        bgcolor: "black",
+        color: "gold",
+        boxShadow: "0 0 8px rgba(0, 0, 0, 0.6)",
+      }
+    }
+  }
+
+  const premiumText = () => {
+    return (
+      <Typography sx={vipEffect} variant='body2' color={"gold"}>
+        VIP<FontAwesomeIcon icon={faGem} style={{ marginTop: "5%", marginLeft: "2px" }} />
+      </Typography>
+    )
+  }
+
   return (
     <div>
+      {premiumText()}
       <IconButton
         onClick={handleClickDropdown}
         size="small"
@@ -106,7 +162,7 @@ export default function CustomizedDropdown({ user, handleClickAsGuest }: Customi
         aria-haspopup="true"
         aria-expanded={open ? 'true' : 'false'}
       >
-        <Avatar src={user ? `data:image/jpeg;base64,${user.profilePicture}` : ""} sx={{ width: 32, height: 32 }}>{user ? user.userName.charAt[0] : ""}</Avatar>
+        <Avatar src={user ? `data:image/jpeg;base64,${user.profilePicture}` : ""} sx={{ width: 40, height: 40 }}>{user ? user.userName.charAt[0] : ""}</Avatar>
       </IconButton>
       {
         user === null ?
@@ -114,6 +170,7 @@ export default function CustomizedDropdown({ user, handleClickAsGuest }: Customi
           :
           <Dropdown />
       }
+
     </div>
   );
 }

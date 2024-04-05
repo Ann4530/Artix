@@ -31,6 +31,12 @@ export default function PackagePage() {
         console.log('clicked')
     }
 
+    const currentPack = ()=>{
+        return(
+            <Typography variant='h5' color="Highlight">Your Current Package</Typography>
+        )
+    }
+
     const defaultCardStyle = (packageService: Package) => {
         return (
             <Card className='cardDefault' sx={{ backgroundImage: 'url("/images/default.jpg")'}}>

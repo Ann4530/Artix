@@ -4,7 +4,7 @@ import CustomizedButton from './CustomizedButton.tsx'
 // This StyledButton will be used to override the default label styling
 
 
-const CustomizedImageButton = ({ name, onChange, fullWidth,}) => {
+const CustomizedImageButton = ({ name, onChange, fullWidth}) => {
   return (
     <>
       <div className='uploadButton'
@@ -27,7 +27,7 @@ const CustomizedImageButton = ({ name, onChange, fullWidth,}) => {
             variant="contained"
             component="span"
             fullWidth={fullWidth}
-            style={{ width: "30%", borderRadius: "50px" }}
+            style={{ width: "30%"}}
             startIcon={<BackupIcon />}
           >
             Upload Artwork

@@ -482,7 +482,7 @@ custom-scrollbar::-webkit-scrollbar-thumb:hover {
 }
 
 .artTextField {
-  width: 80%;
+  width: 100%;
 }
 
 .priceBox {

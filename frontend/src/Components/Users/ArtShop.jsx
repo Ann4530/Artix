@@ -11,7 +11,7 @@ import ArtShopDialog from './ArtShopDialog.jsx';
 import { ThemeContext } from '../Themes/ThemeProvider.tsx';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 function ArtShop() {
-    
+
     const auth = JSON.parse(sessionStorage.getItem("auth"));
     const [dataState, setDataSate] = useState([]);
     const [open, setOpen] = useState(false);
@@ -46,10 +46,10 @@ function ArtShop() {
 
 
     function formatMoney(amount) {
-        amount *= 1000; 
+        amount *= 1000;
         return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
-    
+
 
     const downloadSectionAsImage = async (elementId) => {
         const element = document.getElementById(elementId);
@@ -85,10 +85,13 @@ function ArtShop() {
     }, [dataState?.currentPage])
     const { theme } = useContext(ThemeContext)
     return (
-        <Box className='box' 
+        <Box className='box'
             sx={{
                 color: '#61dafb',
-                backgroundColor: `rgba(${theme.rgbBackgroundColor},0.97)`,
+                backgroundColor: `rgba(${theme.rgbBackgroundColor},0.50)`,
+                backgroundImage:`url("/images/shopBackground.jpg")`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
                 transition: theme.transition,
                 width: '86%',
                 margin: 'auto',
@@ -96,7 +99,7 @@ function ArtShop() {
                 marginBottom: '100px',
                 paddingLeft: 5,
                 paddingRight: 5,
-                paddingBottom:5,
+                paddingBottom: 5,
                 transform: 'translateY(40px)'
             }}
         >
@@ -110,43 +113,41 @@ function ArtShop() {
             <h1>
                 Purchasable Artworks:
             </h1>
-            <Box sx={{ display: "flex", gap: 4, flexWrap: "wrap", mt: 4, justifyContent:'center' }}>
+            <Box sx={{ display: "flex", gap: 4, flexWrap: "wrap", mt: 4, justifyContent: 'center' }}>
                 {dataState?.listItem?.map((art, index) => {
                     return (
                         <div class="card1" key={index}>
                             <div class="card1-info">
-                             
-                                <Card sx={{ width: 280,height:'auto', background: theme.backgroundColor3, display: "flex", flexDirection: "column", justifyContent: "space-between", borderRadius: 1 }}>
-                                <Link to={`../artwordrecomment/artwork/${art?.artworkID}`}>
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h6" component="div">
-                                            {art?.artworkName}
-                                        </Typography>
-                                        <div>
-                                            <img style = {{pointerEvents:'none', objectFit:'cover'}} id={`img-${index}`} className='w-full h-500' src={"data:image/jpeg;base64," + art?.image} alt={art?.artworkName} />
-                                        </div>
 
-                                        <Typography variant="body2" color="text.secondary">
-                                            <IconButton aria-label="add to favorites">
-                                                <FavoriteBorderIcon sx={{ color: pink[500] }} />
-                                            </IconButton>
-                                            {art?.likes}
-                                            <IconButton aria-label="share">
-                                                <Discount sx={{ color: pink[500] }} />
-                                            </IconButton>
-                                            {formatMoney(art?.price)}
-                                        </Typography>
-                                    </CardContent></Link>
-                                    <CardActions style={{display:'flex',justifyContent:'space-between',margin:'0px 20px 5px'}} >
-                                     
+                                <Card sx={{ width: 280, height: 'auto', background: theme.backgroundColor3, display: "flex", flexDirection: "column", justifyContent: "space-between", borderRadius: 1 }}>
                                     <Link to={`../artwordrecomment/artwork/${art?.artworkID}`}>
-                                        <Button sx={{ minWidth: '75px' }}  variant="contained" size="small" title='Detail'><More /></Button></Link>
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h6" component="div">
+                                                {art?.artworkName}
+                                            </Typography>
+                                            <div>
+                                                <img style={{ pointerEvents: 'none', objectFit: 'cover' }} id={`img-${index}`} className='w-full h-500' src={"data:image/jpeg;base64," + art?.image} alt={art?.artworkName} />
+                                            </div>
+
+                                            <Typography variant="body2" color="text.secondary">
+                                                <IconButton aria-label="add to favorites">
+                                                    <FavoriteBorderIcon sx={{ color: pink[500] }} />
+                                                </IconButton>
+                                                {art?.likes}
+                                                <IconButton aria-label="share">
+                                                    <Discount sx={{ color: pink[500] }} />
+                                                </IconButton>
+                                                {formatMoney(art?.price)}
+                                            </Typography>
+                                        </CardContent></Link>
+                                    <CardActions  >
+                                        <Link to={`../artwordrecomment/artwork/${art?.artworkID}`}>
+                                            <Button sx={{ minWidth: '30%', margin: '0px 50px 5px 15px' }} variant="contained" size="small" title='Detail'><More /></Button></Link>
                                         {/* {i?.purchasable && <Button sx={{ minWidth: 0 }} variant="contained" size="small" title='Buy'><Shop /></Button>} */}
                                         {
                                             art?.status === true
-                                           
                                             &&
-                                            <Button sx={{ minWidth: '35%' }}
+                                            <Button sx={{ minWidth: '30%', marginBottom: '5px' }}
                                                 variant="contained" size="small" title='Dowload' onClick={() => handleDownload(`img-${index}`)}>
                                                 <Download />
                                             </Button>}
@@ -158,12 +159,29 @@ function ArtShop() {
                 })
                 }
             </Box>
-            <Box sx={{ display: "flex", justifyContent: "center", margin: "15px 0px 10px 0px" }}>
+            <Box sx={{ display: "flex", justifyContent: "center", margin: "15px 0px 10px 0px",padding:"2%" }}>
                 <Stack spacing={2}>
                     <Pagination
-                        // sx={{ background: "white" }}
-
-                        count={dataState?.totalPages} color="primary"
+                        sx={{
+                            background: theme.color, borderRadius: "20px",
+                            // Styling the pagination items
+                            '& .MuiPaginationItem-root': {
+                                color: theme.backgroundColor, // Normal state color
+                                borderColor: 'white',
+                                '&:hover': {
+                                    backgroundColor: theme.backgroundColor, // Hover state color
+                                    color: theme.color
+                                },
+                                '&.Mui-selected': {
+                                    backgroundColor: theme.backgroundColor, // Selected item color
+                                    color: theme.color,
+                                    '&:hover': {
+                                        backgroundColor: 'darkgray', // Hover color for the selected item
+                                    }
+                                }
+                            }
+                        }}
+                        count={dataState?.totalPages}
                         onChange={(e, page) => {
                             setDataSate((pre) => ({
                                 ...pre,

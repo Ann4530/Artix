@@ -32,24 +32,24 @@ function UploadArtwork() {
     const [preview, setPreview] = useState<string>();
     const [blobImage, setBlobImage] = useState();
     const [priceSwitch, setPriceSwitch] = useState(false)
-    const [listOfTags, setListOfTags] = useState<Tag[]|undefined>([]);
+    const [listOfTags, setListOfTags] = useState<Tag[] | undefined>([]);
     const url = "https://localhost:7233/api/Artworks/";
     const redirectUrl = useNavigate();
 
     // Attempt to retrieve the auth state from sessionStorage
     // Check if there's any auth data saved and parse it
     const authData = sessionStorage.getItem('auth');
-    const user:Creator = authData ? JSON.parse(authData) : null;
+    const user: Creator = authData ? JSON.parse(authData) : null;
     //nullish coalescing operator (??) 
 
     //Get tagList
     useEffect(() => {
-        const tagList = async ()=>{
-            let tagList:Tag[]|undefined = await GetTagList()
+        const tagList = async () => {
+            let tagList: Tag[] | undefined = await GetTagList()
             setListOfTags(tagList)
-        } 
+        }
         tagList()
-    },[])
+    }, [])
 
     //Covert Blob to Base64 string to easily view the image
     function blobToBase64(blob, callback) {
@@ -103,7 +103,7 @@ function UploadArtwork() {
     const formik = useFormik({
         validateOnChange: false,
         validateOnBlur: false,
-        
+
         initialValues: {
             artworkID: 0,
             creatorID: user.creatorID, //CHANGE THE CREATOR ID 
@@ -129,10 +129,10 @@ function UploadArtwork() {
             values.purchasable = priceSwitch
             // Split Data URL Base64 (data:image/jpeg,base64) => (base64)
             console.log(values)
-            const postArtwork = async () =>{
-                const response = await  axios.post(url, values)
-                console.log("Post Artwork Complete!" + response.data) 
-                const newArtwork:Artwork = response.data //The response data will contain the newly post artwork infomations. Including its id
+            const postArtwork = async () => {
+                const response = await axios.post(url, values)
+                console.log("Post Artwork Complete!" + response.data)
+                const newArtwork: Artwork = response.data //The response data will contain the newly post artwork infomations. Including its id
                 redirectUrl(`../artwork/${newArtwork.artworkID}`) //Redirect the user to the post with the new artwork
             }
             postArtwork()
@@ -145,23 +145,14 @@ function UploadArtwork() {
     })
     return (
         <>
-
-            <div className='formup'>
-                <div className='userInfoForm' style={{ backgroundColor: `rgba(${theme.rgbBackgroundColor})` }}>
+            <div className='formup' style={{ backgroundImage: "url('/images/desk.jpg')" }}>
+                <div className='userInfoForm' style={{ backgroundColor: `rgba(${theme.rgbBackgroundColor},0.80)`, }}>
                     <form onSubmit={formik.handleSubmit}>
                         <CustomizedTypography variant="h4" component="h2" gutterBottom>
                             Share Us Your Creation
                         </CustomizedTypography>
-
-                        <CustomizedImageButton
-                            name="imageFile"
-                            onChange={handleImageChange}
-                            fullWidth
-                        />
-
-                        {formik.errors.imageFile && (<Typography variant="body2" color="red">{formik.errors.imageFile}</Typography>)}
                         <div className='allFieldForm'>
-                            <Box className="textFieldBox">
+                            <Box className="textFieldBox" sx={{ width: "50%", backgroundColor: theme.backgroundColor,padding:"2%",border:`solid 1px ${theme.color}` }}>
                                 <div className='artTextField' style={{ marginBottom: '2%' }}>
                                     <CustomizedTextField
                                         name="artworkName"
@@ -183,6 +174,14 @@ function UploadArtwork() {
                                         rows={4}
                                     />
                                     {formik.errors.description && (<Typography variant="body2" color="red">{formik.errors.description}</Typography>)}
+                                </div>
+                                <div className='artTextField' style={{marginTop:"2%"}}>
+                                    <CustomizedImageButton
+                                        name="imageFile"
+                                        onChange={handleImageChange}
+                                        fullWidth
+                                    />
+                                    {formik.errors.imageFile && (<Typography variant="body2" color="red">{formik.errors.imageFile}</Typography>)}
                                 </div>
                             </Box>
                             <Box className="priceBox"
@@ -207,59 +206,61 @@ function UploadArtwork() {
 
                         </div>
                         <Box className="tagAndpreviewBox">
-                            {listOfTags?.length!==0? 
-                            <FormikProvider value={formik}
-                            //Formik Fields requires you to provide a context with FormikProvider with the difined 'formik' as value
-                            >
-                                <div className='tagField' >
-                                    <FieldArray 
-                                        name="artworkTag"
-                                        render={arrayHelpers => (
-                                            <>
-                                                {formik.values.artworkTag.map((tag, index) => (
-                                                    <div key={index}>
-                                                        <Select style={{ color: theme.color}}
-                                                            name={`artworkTag.${index}.tagID`}
-                                                            value={tag.tagID}
-                                                            onChange={formik.handleChange}
-                                                        >
-                                                            {listOfTags?.map((tag:Tag) => {
-                                                                return (
-                                                                    <MenuItem 
-                                                                        key={tag.tagID} value={tag.tagID}>
-                                                                        {tag.tagName}
-                                                                    </MenuItem>
-                                                                )
-                                                            })}
+                            {listOfTags?.length !== 0 ?
+                                <FormikProvider value={formik}
+                                //Formik Fields requires you to provide a context with FormikProvider with the difined 'formik' as value
+                                >
+                                    <div className='tagField' style={{backgroundColor:theme.backgroundColor,border:`solid 1px ${theme.color}`,padding:"2%"}} >
+                                        <FieldArray
+                                            name="artworkTag"
+                                            render={arrayHelpers => (
+                                                <>
+                                                    {formik.values.artworkTag.map((tag, index) => (
+                                                        <div key={index}>
+                                                            <Select style={{ color: theme.color,marginBottom:'2%',
+                                                                 border: `1px solid ${theme.color}`,
+                                                            }}
+                                                                name={`artworkTag.${index}.tagID`}
+                                                                value={tag.tagID}
+                                                                onChange={formik.handleChange}
+                                                            >
+                                                                {listOfTags?.map((tag: Tag) => {
+                                                                    return (
+                                                                        <MenuItem
+                                                                            key={tag.tagID} value={tag.tagID}>
+                                                                            {tag.tagName}
+                                                                        </MenuItem>
+                                                                    )
+                                                                })}
 
-                                                        </Select>
-                                                        <CustomizedButton style={{ color: theme.color,}}
+                                                            </Select>
+                                                            <CustomizedButton style={{ color: theme.color, }}
 
-                                                            onClick={() => arrayHelpers.remove(index)}
-                                                        >
-                                                            Remove
-                                                        </CustomizedButton>
-                                                    </div>
-                                                ))}
-                                                <CustomizedButton
-                                                 style={{ color: theme.color,}}
+                                                                onClick={() => arrayHelpers.remove(index)}
+                                                            >
+                                                                Remove
+                                                            </CustomizedButton>
+                                                        </div>
+                                                    ))}
+                                                    <CustomizedButton
+                                                        style={{ color: theme.color, }}
 
-                                                    onClick={() => {
-                                                        arrayHelpers.push({
-                                                            artworkTagID: 0,
-                                                            artworkID: 0,
-                                                            tagID: 1
-                                                        });
-                                                    }
-                                                    }>
-                                                    Add a Tag
-                                                </CustomizedButton>
-                                            </>
-                                        )}
-                                    />
-                                </div>
-                            </FormikProvider>
-                            :""}
+                                                        onClick={() => {
+                                                            arrayHelpers.push({
+                                                                artworkTagID: 0,
+                                                                artworkID: 0,
+                                                                tagID: 1
+                                                            });
+                                                        }
+                                                        }>
+                                                        Add a Tag
+                                                    </CustomizedButton>
+                                                </>
+                                            )}
+                                        />
+                                    </div>
+                                </FormikProvider>
+                                : ""}
                             <div className='imageBox'>
                                 <Typography variant="h6"
                                     color={theme.color}

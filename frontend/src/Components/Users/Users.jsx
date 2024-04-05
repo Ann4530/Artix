@@ -53,9 +53,6 @@ export default function Users() {
           <Route path={`artwordrecomment/artwork/:id`} element={<ArtPost />} />
           <Route path={`randomword/artwork/:id`} element={<ArtPost />} />
           <Route path={`artshop/:id`} element={<ArtShopDetail />} />
-
-
-
           {/* <Route path={`payment`} element={<Payment/>}/> */}
         </Routes>
         <Outlet />

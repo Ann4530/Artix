@@ -78,7 +78,7 @@ export default function CustomizedDrawer() {
         {HomePage.map((text, index) => (
           <ListItem key={text} disablePadding>
             <CustomizedButton  component={Link} to={linkListHomePage[index]} >
-              <ListItemIcon sx={{color:theme.color}}>
+              <ListItemIcon sx={{color:theme.color, marginLeft:"5%"}}>
                   {IconListHomePage[index]}
               </ListItemIcon>
               <ListItemText primary={text} />
@@ -93,7 +93,7 @@ export default function CustomizedDrawer() {
         {Personal.map((text, index) => (
           <ListItem key={text} disablePadding>
             <CustomizedButton component={Link} to={linkListPersonal[index]} >
-              <ListItemIcon sx={{color:theme.color}}>
+              <ListItemIcon sx={{color:theme.color, marginLeft:"5%"}}>
                 {IconListPersonal[index]}
               </ListItemIcon>
               <ListItemText primary={text} />
