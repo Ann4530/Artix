@@ -30,7 +30,6 @@ export default function PackagePage() {
             SetPackgeService(packageList ?? [])
             let servicePackage: CurrentPackage | undefined = await GetCurrentPackageByCreatorID(user.creatorID)
             setCurrentPackage(servicePackage)
-            console.log(servicePackage)
             setLoading(false)
         }
         getPackage()
@@ -93,6 +92,7 @@ export default function PackagePage() {
             </CardContent>
                 <CardActionArea>
                     <Button
+                    disabled={currentPackage?.packageID===2}
                         sx={{
                             backgroundColor: "goldenrod", color: "black", border: 'solid 1px', borderLeft: "none", borderRight: "none", borderRadius: '0px'
                             , ":hover": {
