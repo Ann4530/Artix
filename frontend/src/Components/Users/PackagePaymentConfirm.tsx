@@ -1,49 +1,46 @@
 import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import "../../css/ArtConfirm.css"
-import { VnpayPayment } from '../../API/ArtShop/ArtShopServices';
 import { useNavigate } from 'react-router-dom';
+import { Package } from '../../Interfaces/Package';
+import { VnpayPackagePayment } from '../../API/PackageAPI/POST.tsx';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useState } from 'react';
 
 export default function PackagePaymentConfirm(props) {
+    const [loading, setLoading] = useState(false);
     let {
         open,
         item,
         handleClose
     } = props;
-    const auth = JSON.parse(sessionStorage.getItem("auth"));
-    const [dataItem, setDataItem] = React.useState({});
-    const navigate = useNavigate()  
-    const convertData = (value) => {
+    const auth = JSON.parse(sessionStorage.getItem("auth")??"");
+    const [dataItem, setDataItem] = React.useState<Package>();
+    const convertData = (value:Package) => {
         return {
-            orderDetailID: 0,
-            orderID: 0,
-            artWorkID: value?.artworkID,
-            dateOfPurchase: new Date(),
-            price: value?.price * 1000,
-            order: {
-                orderID: 0,
-                sellerID: value?.creatorID,
-                confirmation: true,
-                buyerID: auth?.creatorID
-            },
-            purchaseConfirmationImag: "string",
-            emai: "string"
+            packageID: value.packageID,
+            packageName: value.packageName,
+            packageDescription: value.packageDescription,
+            packagePrice: value.packagePrice,
         }
     }
 
     const handleSubmit = async (e) => {
         try {
+            setLoading(true)
             e.preventDefault();
-            // const data = convertData(dataItem);
-            // console.log(data)
-            const data = await VnpayPayment(convertData(dataItem));
+             //const data = convertData(dataItem);
+             console.log(dataItem)
+            const data = await VnpayPackagePayment(convertData(dataItem))
             window.location.href = data?.data;
+            setLoading(false)
         } catch (error) {
         }
     }
     React.useEffect(() => {
         setDataItem(item)
-    }, [])
+    },)
     return (
         <Dialog
             open={open}
@@ -56,6 +53,12 @@ export default function PackagePaymentConfirm(props) {
                 background: "none"
             }}
         >
+            <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 100 }}
+                    open={loading}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
             <section className="add-card page">
                 <form className="form" onSubmit={handleSubmit}>
                     <label htmlFor="name" className="label">
@@ -64,7 +67,7 @@ export default function PackagePaymentConfirm(props) {
                             className="input-field"
                             type="text"
                             name="imagename"
-                            value={item?.artworkName}
+                            value={item?.packageName}
                             title="Image name"
                             placeholder=""
                         />
@@ -74,7 +77,7 @@ export default function PackagePaymentConfirm(props) {
                         <input
                             id="serialCardNumber"
                             className="input-field"
-                            value={item?.price * 1000 + " VND"}
+                            value={item?.packagePrice + " VND"}
                             name="price"
                             title="Input title"
                             placeholder=""

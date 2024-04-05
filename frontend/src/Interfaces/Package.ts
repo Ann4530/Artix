@@ -1,6 +1,6 @@
 
 export interface Package {
-    packageId: string | number;
+    packageID: string | number;
     packageName: string;
     packageDescription: string;
     packagePrice: number;

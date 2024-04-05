@@ -25,6 +25,7 @@ export default function PackagePage() {
     const user: Creator = savedAuth ? JSON.parse(savedAuth) : null;
     // Now 'auth' contains your authentication state or null if there's nothing saved
     const [open, setOpen] = useState(false)
+    const [selectPackage, setSelectPackage] = useState<Package>()
     useEffect(() => {
         const getPackage = async () => {
             setLoading(true)
@@ -36,7 +37,8 @@ export default function PackagePage() {
         }
         getPackage()
     }, [])
-  const handleOpen = () => {
+  const handleOpen = (currentPackage) => {
+    setSelectPackage(currentPackage)
     setOpen(!open);
   }
 
@@ -45,8 +47,6 @@ export default function PackagePage() {
             <Typography sx={{textAlign:"center"}} variant='h5' color="Highlight">Your Current Package</Typography>
         )
     }
-
-    console.log(currentPackage?.packageID)
     const defaultCardStyle = (packageService: Package) => {
         return (
             <Card className='cardDefault' sx={{ backgroundImage: 'url("/images/default.jpg")' }}>
@@ -100,7 +100,7 @@ export default function PackagePage() {
                                 backgroundColor: "none", color: "gold", border: 'solid 1px goldenrod', borderLeft: "none", borderRight: "none",
                             },
                         }}
-                        className='buyBtn' onClick={handleOpen} size="small">
+                        className='buyBtn' onClick={()=>handleOpen(packageService)} size="small">
                         {currentPackage?.packageID===2?"You're Using This Package":"Purchase"}
                     </Button>
                 </CardActionArea>
@@ -143,7 +143,7 @@ export default function PackagePage() {
                     })}
                 </Box>
             </Box>
-            <PackagePaymentConfirm open={open} handleClose={handleOpen} item={currentPackage} />
+            <PackagePaymentConfirm open={open} handleClose={handleOpen} item={selectPackage} />
         </div>
     )
 }
