@@ -89,7 +89,7 @@ function UploadArtwork() {
                 <CustomizedTextField
                     sx={{ float: 'right' }}
                     name="price"
-                    label="Price(Unit is VND)"
+                    label="Price *1000 (Unit is VND)"
                     value={formik.values.price}
                     onChange={formik.handleChange}
                     fullWidth
@@ -145,7 +145,7 @@ function UploadArtwork() {
     })
     return (
         <>
-            <div className='formup' style={{ backgroundImage: "url('/images/desk.jpg')" }}>
+            <div className='formup' style={{ backgroundImage: "url('/images/desk.jpg')",backgroundSize:"cover" }}>
                 <div className='userInfoForm' style={{ backgroundColor: `rgba(${theme.rgbBackgroundColor},0.80)`, }}>
                     <form onSubmit={formik.handleSubmit}>
                         <CustomizedTypography variant="h4" component="h2" gutterBottom>
