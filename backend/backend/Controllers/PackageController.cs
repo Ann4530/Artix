@@ -122,7 +122,7 @@ public class PackageController : ControllerBase
 
             // Thực hiện các hành động khác sau khi thanh toán thành công
 
-            return Redirect("~/success-page");
+            return Redirect("http://localhost:3000/characters/package");
         }
         else
         {
@@ -132,7 +132,7 @@ public class PackageController : ControllerBase
             _context.CurrentPackage.Update(package);
             await _context.SaveChangesAsync();
 
-            return Redirect("~/fail-page");
+            return Redirect("http://localhost:3000/characters/package");
         }
     }
 
