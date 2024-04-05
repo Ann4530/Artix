@@ -11,6 +11,10 @@
         public string image { get; set; }
         public bool Purchasable { get; set; }
         public double? Price { get; set; }
-        public string Status { get; set; }
+        public Boolean Status { get; set; }
+        public ArtworkViewModel()
+        {
+            Status = false;
+        }
     }
 }

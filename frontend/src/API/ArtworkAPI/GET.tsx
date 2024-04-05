@@ -1,5 +1,5 @@
 
-import { Artwork } from '../../Interfaces/ArtworkInterfaces' 
+import { Artwork, ArtworkPaymentStatus } from '../../Interfaces/ArtworkInterfaces' 
 import axios from 'axios'
 
 
@@ -12,7 +12,16 @@ const nearest7artworkurl = `https://localhost:7233/api/artworks/recent7artworksN
 const artworkbycreatornoimageurl = `https://localhost:7233/api/artworks/ByCreatorIDNotImage/`
 const recentartworks = 'https://localhost:7233/api/artworks/recent-likes-summary'
 const artworkyidnoimageurl = 'https://localhost:7233/api/artworks/ArtworkNotImageFile/'
+const artworkPAymentStatus = 'https://localhost:7233/api/artworks/GetArtworksWithPaymentStatus'
 
+export async function GetArtsPaymentStatus(creatorId:string,artworkId:string) {
+  try{
+      let artwork:ArtworkPaymentStatus = await axios.get(artworkPAymentStatus+`/${creatorId}`+`/${artworkId}`).then(response => response.data)
+      return artwork
+  }catch(err){
+    console.log(err)
+  }
+}
 
 export async function GetArtsNoImageByCreatorId(id:string) {
   try{

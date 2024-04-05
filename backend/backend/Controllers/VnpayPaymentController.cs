@@ -192,11 +192,11 @@ namespace backend.Controllers
 
                 smtp.Send(message);
                 smtp.Send(messageSeller);
-                return Redirect("http://localhost:3000/characters/artshop");
+                return Redirect($"http://localhost:3000/characters/artwordrecomment/artwork/{ArtWorkID}");
             }
             else
             {
-                return Redirect("http://localhost:3000/characters/artshop");
+                return Redirect($"http://localhost:3000/characters/artwordrecomment/artwork/{ArtWorkID}");
             }
         }
 

@@ -16,3 +16,7 @@ export interface Artwork{
     },
   ]
 }
+
+export interface ArtworkPaymentStatus{
+  status: boolean
+}

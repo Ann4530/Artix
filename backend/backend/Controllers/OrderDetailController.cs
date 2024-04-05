@@ -83,33 +83,109 @@ public class OrderDetailController : ControllerBase
 
 
     [HttpGet("ByBuyer/{buyerId}")]
-    public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByBuyerId(int buyerId)
+    public async Task<ActionResult<IEnumerable<OrderDetailDTO>>> GetOrdersByBuyerId(int buyerId)
     {
+        // Lấy danh sách các đơn hàng của người mua với buyerId cụ thể
         var orders = await _context.Orders
             .Where(o => o.BuyerID == buyerId)
             .ToListAsync();
 
+        // Kiểm tra nếu không có đơn hàng nào được tìm thấy
         if (orders == null)
         {
             return NotFound();
         }
 
-        return orders;
+        // Chuyển đổi danh sách các đơn hàng thành danh sách DTO sử dụng hàm Select
+        var orderDetails = orders
+            .Join(
+                _context.OrderDetail,
+                o => o.OrderID,
+                od => od.OrderID,
+                (o, od) => new { Order = o, OrderDetail = od })
+            .Join(
+                _context.Creators,
+                join => join.Order.SellerID,
+                seller => seller.CreatorID,
+                (join, seller) => new { join.Order, join.OrderDetail, Seller = seller })
+            .Join(
+                _context.Creators,
+                join => join.Order.BuyerID,
+                buyer => buyer.CreatorID,
+                (join, buyer) => new { join.Order, join.OrderDetail, join.Seller, Buyer = buyer })
+            .Join(
+                _context.Artworks,
+                join => join.OrderDetail.ArtWorkID,
+                a => a.ArtworkID,
+                (join, a) => new { join.OrderDetail, join.Seller, join.Buyer, Artwork = a })
+            .Select(join => new OrderDetailDTO
+            {
+                OrderDetailID = join.OrderDetail.OrderDetailID,
+                OrderID = join.OrderDetail.OrderID,
+                ArtWorkID = join.OrderDetail.ArtWorkID,
+                BuyerName = join.Buyer.UserName,
+                SellerName = join.Seller.UserName,
+                DateOfPurchase = join.OrderDetail.DateOfPurchase,
+                Price = join.OrderDetail.Price,
+            })
+            .ToList();
+
+        // Trả về danh sách các đơn hàng dưới dạng DTO
+        return orderDetails;
     }
+
     [HttpGet("BySeller/{sellerId}")]
-    public async Task<ActionResult<IEnumerable<Order>>> GetOrdersBySellerId(int sellerId)
+    public async Task<ActionResult<IEnumerable<OrderDetailDTO>>> GetOrdersBySellerId(int sellerId)
     {
+        // Lấy danh sách các đơn hàng của người bán với sellerId cụ thể
         var orders = await _context.Orders
             .Where(o => o.SellerID == sellerId)
             .ToListAsync();
 
+        // Kiểm tra nếu không có đơn hàng nào được tìm thấy
         if (orders == null)
         {
             return NotFound();
         }
 
-        return orders;
+        // Chuyển đổi danh sách các đơn hàng thành danh sách DTO sử dụng hàm Select
+        var orderDetails = orders
+            .Join(
+                _context.OrderDetail,
+                o => o.OrderID,
+                od => od.OrderID,
+                (o, od) => new { Order = o, OrderDetail = od })
+            .Join(
+                _context.Creators,
+                join => join.Order.SellerID,
+                seller => seller.CreatorID,
+                (join, seller) => new { join.Order, join.OrderDetail, Seller = seller })
+            .Join(
+                _context.Creators,
+                join => join.Order.BuyerID,
+                buyer => buyer.CreatorID,
+                (join, buyer) => new { join.Order, join.OrderDetail, join.Seller, Buyer = buyer })
+            .Join(
+                _context.Artworks,
+                join => join.OrderDetail.ArtWorkID,
+                a => a.ArtworkID,
+                (join, a) => new { join.OrderDetail, join.Seller, join.Buyer, Artwork = a })
+            .Select(join => new OrderDetailDTO
+            {
+                OrderDetailID = join.OrderDetail.OrderDetailID,
+                OrderID = join.OrderDetail.OrderID,
+                ArtWorkID = join.OrderDetail.ArtWorkID,
+                BuyerName = join.Buyer.UserName,
+                SellerName = join.Seller.UserName,
+                DateOfPurchase = join.OrderDetail.DateOfPurchase,
+                Price = join.OrderDetail.Price,
+            })
+            .ToList();
+
+        // Trả về danh sách các đơn hàng dưới dạng DTO
+        return orderDetails;
     }
+
 
 
     [HttpGet("All")]

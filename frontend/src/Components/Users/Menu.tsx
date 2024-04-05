@@ -15,32 +15,34 @@ import LoginForm from '../Forms/LoginForm.jsx';
 import { useHandleClick } from '../../CustomHooks/HandleClick.jsx';
 import { GetCreatorByID } from '../../API/UserAPI/GET.tsx';
 import { Creator } from '../../Interfaces/UserInterface';
+import "../../css/Package.css"
+import PremiumTypography from '../StyledMUI/PremiumTypography.tsx';
 
 export default function Menu() {
   const { theme } = useContext(ThemeContext);
   // Attempt to retrieve the auth state from sessionStorage
   const savedAuth = sessionStorage.getItem('auth');
   // Check if there's any auth data saved and parse it
-  const user:Creator = savedAuth ? JSON.parse(savedAuth) : null;
+  const user: Creator = savedAuth ? JSON.parse(savedAuth) : null;
   // Now 'auth' contains your authentication state or null if there's nothing saved
 
   const [isOpen, handleClick] = useHandleClick()
-  const [avatar,setAvatar] = useState<Creator>()
+  const [avatar, setAvatar] = useState<Creator>()
 
-  useEffect(() =>{
-    const getAvatar = async() =>{
-      const avatar = await GetCreatorByID(user? user.creatorID:'0')
+  useEffect(() => {
+    const getAvatar = async () => {
+      const avatar = await GetCreatorByID(user ? user.creatorID : '0')
       setAvatar(avatar)
     }
-    if(user!==null){getAvatar()}
-  },[])
+    if (user !== null) { getAvatar() }
+  }, [])
   const disabledButtons = () => {
 
   }
 
   function LoginButton() {
     return (
-      <Button color="inherit"><Link to={"/"}>Login</Link></Button>
+      <Link to={"/"}> <h3 style={{fontWeight:'normal'}}>Login</h3></Link>
     )
   }
   return (
@@ -63,12 +65,22 @@ export default function Menu() {
               <ExpandingSearchBar />
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              {user===null? <LoginButton /> : ""}
-              <Button onClick={user===null? () => handleClick : () => disabledButtons()}
-                color="inherit"><Link to={user!==null? "artworkform" : ""}>Publish Your Works</Link></Button>
+              <Link to={`package`}>
+                <Button>
+                  <PremiumTypography />
+                </Button>
+              </Link>
+              {user === null ? <LoginButton /> : ""}
+              <Button onClick={user === null ? () => handleClick : () => disabledButtons()}
+                color="inherit"><Link to={user !== null ? "artworkform" : ""}>
+                  <h3 style={{fontWeight:'normal'}}>
+                    Publish Your Works
+                  </h3>
+                </Link>
+              </Button>
               <CustomizedDropdown
                 handleClickAsGuest={handleClick}
-                user={avatar? avatar : user} />
+                user={avatar ? avatar : user} />
             </Box>
           </Toolbar>
         </AppBar>

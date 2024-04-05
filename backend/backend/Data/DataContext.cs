@@ -22,7 +22,6 @@ namespace backend.Entities
         public DbSet<Roles> Roles { get; set; }
         public DbSet<Account> Account { get; set; }
         public DbSet<Moderators> Moderators { get; set; }
-
         public DbSet<ArtworkTag> ArtworkTag { get; set; }
         public DbSet<Artworks> Artworks { get; set; }
         public DbSet<Comments> Comments { get; set; }
@@ -34,6 +33,8 @@ namespace backend.Entities
         public DbSet<OrderDetail> OrderDetail { get; set; }
         public DbSet<Commission> Commission { get; set; }
         public DbSet<CommissionForm> CommissionForm { get; set; }
+        public DbSet<Package> Package { get; set; }
+        public DbSet<CurrentPackage> CurrentPackage { get; set; }
         // Thêm DbSet cho các bảng khác nếu cần
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -47,8 +48,11 @@ namespace backend.Entities
 
             modelBuilder.Entity<ArtworkTag>()
             .HasKey(t => new { t.ArtworkID, t.TagID });
+<<<<<<< HEAD
 
             // ... Các cấu hình khác
+=======
+>>>>>>> BaoNDG
             modelBuilder.Entity<OrderDetail>().Ignore(o => o.email);
             base.OnModelCreating(modelBuilder);
         }

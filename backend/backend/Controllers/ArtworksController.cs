@@ -82,7 +82,7 @@ public class ArtworksController : ControllerBase
                     image = artwork.ImageFile,
                     Purchasable = artwork.Purchasable,
                     Price = artwork.Price,
-                    Status = _context.OrderDetail.Any(od => od.ArtWorkID == artwork.ArtworkID && od.Order.BuyerID == buyerId) ? "Đã thanh toán" : "Chưa thanh toán"
+                    Status = _context.OrderDetail.Any(od => od.ArtWorkID == artwork.ArtworkID && od.Order.BuyerID == buyerId)
                 })
                 .ToListAsync();
 
@@ -100,6 +100,46 @@ public class ArtworksController : ControllerBase
             return StatusCode(500, $"Lỗi không xác định: {ex.Message}");
         }
     }
+
+    [HttpGet("GetArtworksWithPaymentStatus/{buyerId}/{artworkId}")]
+    public async Task<ActionResult<ArtworkViewModel>> GetArtworksWithPaymentStatus2(int buyerId, int artworkId)
+    {
+        try
+        {
+            // Lấy thông tin Artwork với artworkId cụ thể
+            var artwork = await _context.Artworks.FindAsync(artworkId);
+
+            if (artwork == null)
+            {
+                return NotFound($"Không tìm thấy Artwork có ID {artworkId}");
+            }
+
+            // Kiểm tra trạng thái thanh toán của Artwork cho buyer với buyerId
+            bool isPaid = await _context.OrderDetail.AnyAsync(od => od.ArtWorkID == artworkId && od.Order.BuyerID == buyerId);
+
+            // Tạo đối tượng ArtworkViewModel với thông tin từ Artwork và trạng thái thanh toán
+            var artworkViewModel = new ArtworkViewModel
+            {
+                ArtworkID = artwork.ArtworkID,
+                CreatorID = artwork.CreatorID,
+                ArtworkName = artwork.ArtworkName,
+                Description = artwork.Description,
+                DateCreated = artwork.DateCreated,
+                Likes = artwork.Likes,
+                image = artwork.ImageFile,
+                Purchasable = artwork.Purchasable,
+                Price = artwork.Price,
+                Status = isPaid
+            };
+
+            return artworkViewModel;
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Lỗi không xác định: {ex.Message}");
+        }
+    }
+
 
     [HttpGet("ArtworkNotImageFile/{ArtworkID}")]
     public async Task<IActionResult> GetArtwork(int ArtworkID)

@@ -1,6 +1,6 @@
+
 import { Backdrop, Box, Button, Card, CardActions, CardContent, CircularProgress, IconButton, Pagination, Stack, Typography } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
-import { useAuth } from '../AuthenContext.tsx'
 import { getArtWithStatus } from '../../API/ArtShop/ArtShopServices.js';
 import { Discount, Download, Headset, More, ShareLocation, Shop } from '@mui/icons-material';
 import { pink } from '@mui/material/colors';
@@ -46,8 +46,10 @@ function ArtShop() {
 
 
     function formatMoney(amount) {
-        return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        amount *= 1000; 
+        return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
+    
 
     const downloadSectionAsImage = async (elementId) => {
         const element = document.getElementById(elementId);
@@ -121,7 +123,7 @@ function ArtShop() {
                                             {art?.artworkName}
                                         </Typography>
                                         <div>
-                                            <img style = {{pointerEvents:'none'}} id={`img-${index}`} className='w-full h-500' src={"data:image/jpeg;base64," + art?.image} alt={art?.artworkName} />
+                                            <img style = {{pointerEvents:'none', objectFit:'cover'}} id={`img-${index}`} className='w-full h-500' src={"data:image/jpeg;base64," + art?.image} alt={art?.artworkName} />
                                         </div>
 
                                         <Typography variant="body2" color="text.secondary">
@@ -137,11 +139,11 @@ function ArtShop() {
                                     </CardContent></Link>
                                     <CardActions  >
                                     <Link to={`../artwordrecomment/artwork/${art?.artworkID}`}>
-                                        <Button sx={{ minWidth: '30%',margin:'0px 50px 5px 15px' }} variant="contained" size="small" title='Detail'><More />Detail</Button></Link>
+                                        <Button sx={{ minWidth: '30%',margin:'0px 50px 5px 15px' }} variant="contained" size="small" title='Detail'><More /></Button></Link>
                                         {/* {i?.purchasable && <Button sx={{ minWidth: 0 }} variant="contained" size="small" title='Buy'><Shop /></Button>} */}
                                         {
-                                            art?.status ===
-                                            "Đã thanh toán"
+                                            art?.status === true
+                                           
                                             &&
                                             <Button sx={{ minWidth: '30%',marginBottom:'5px' }}
                                                 variant="contained" size="small" title='Dowload' onClick={() => handleDownload(`img-${index}`)}>
@@ -174,3 +176,4 @@ function ArtShop() {
 }
 
 export default ArtShop
+

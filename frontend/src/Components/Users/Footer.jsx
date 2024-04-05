@@ -13,13 +13,13 @@ export default function Footer() {
               Contact Us
             </Typography>
             <Typography variant="body1">
-              <strong>Email:</strong> info@example.com
+              <strong>Email:</strong> artixsupport@gmail.com
             </Typography>
             <Typography variant="body1">
               <strong>Phone:</strong> +1 (123) 456-7890
             </Typography>
             <Typography variant="body1">
-              <strong>Address:</strong> 123 Main St, City, Country
+              <strong>Address:</strong> 1141 Main St, 5CStudio, International
             </Typography>
           </Grid>
 

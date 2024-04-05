@@ -80,7 +80,6 @@ export default function LoginForm({ disableOutsideClick, handleClick, backdrop, 
   return (
     <>
       {isLoading ? <LoadingScreen /> : ""} {/*trigger a loading screen when handling inputted contents*/}
-
       <div onClick={onClick}// backdrop name as defined "backdrop" to generate the black background cover the screen
         className={backdrop}>
         <div onClick={onClick} className='card'>
