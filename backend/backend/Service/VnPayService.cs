@@ -59,7 +59,7 @@ namespace backend.Service
 
 
 
-        public string CreatePaymentUrl2(Package package, HttpContext context)
+        public string CreatePaymentUrlForPackage(Package package, HttpContext context)
         {
             _memoryCache.Set($"Package_{package.PackageID}", package, TimeSpan.FromMinutes(10));
             var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
