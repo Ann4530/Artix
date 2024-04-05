@@ -6,6 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend.Entities;
 using backend.Service;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+
+
+
 
 [Route("api/[controller]")]
 [ApiController]
@@ -50,26 +55,86 @@ public class PackageController : ControllerBase
     }
 
 
-    // POST: api/Package/Purchase
-    //[HttpPost("Purchase")]
-    //public async Task<IActionResult> PurchasePackage([FromBody] CurrentPackage currentPackage)
-    //{
-    //    // Truy vấn bảng Package để lấy thông tin gói package
-    //    var package = await _context.Package.FindAsync(currentPackage.PackageID);
-    //    if (package == null)
-    //    {
-    //        return NotFound("Gói package không tồn tại");
-    //    }
+    [HttpPost("Purchase")]
+    public async Task<IActionResult> PurchasePackage([FromBody] Package package)
+    {
+        var packageInDb = await _context.Package.FindAsync(package.PackageID);
+        if (packageInDb == null)
+        {
+            return NotFound("Gói package không tồn tại");
+        }
 
-    //    // Cập nhật trạng thái của gói package thành "Active" sau khi mua
         
-    //    _context.Package.Update(package);
-    //    await _context.SaveChangesAsync();
+       
+        _context.Package.Update(packageInDb);
+        await _context.SaveChangesAsync();
 
-    //    // Tạo URL thanh toán VNPay và trả về cho người dùng
-    //   // var paymentUrl = await _vnPayService.CreatePaymentUrl2(package, HttpContext);
-    //   // return Ok(paymentUrl);
-    //}
+        // Lấy ID của người dùng hiện tại từ HTTP Context
+        var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!string.IsNullOrEmpty(userId))
+        {
+            // Tìm current package tương ứng với người dùng hiện tại
+            var userIdInt = int.Parse(userId);
+            var currentPackage = await _context.CurrentPackage.FirstOrDefaultAsync(cp => cp.CreatorID == userIdInt);
+
+
+            if (currentPackage != null)
+            {
+                // Cập nhật PackageId của CurrentPackage thành 2
+                currentPackage.PackageID = 2;
+                _context.CurrentPackage.Update(currentPackage);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        // Tạo URL thanh toán cho gói package
+        var paymentUrl = _vnPayService.CreatePaymentUrlForPackage(packageInDb, HttpContext);
+
+        // Trả về URL thanh toán cho người dùng
+        return Ok(paymentUrl);
+    }
+
+
+
+    // GET: api/Package/Callback
+    [HttpGet("Callback")]
+    public async Task<IActionResult> PaymentCallbackPackage()
+    {
+        // Xử lý phản hồi từ VNPay
+        var response = _vnPayService.PaymentExecute(Request.Query);
+        int packageId = int.Parse(Request.Query["PackageId"]);
+
+        // Lấy thông tin gói package từ cơ sở dữ liệu
+        var package = await _context.CurrentPackage.FindAsync(packageId);
+        if (package == null)
+        {
+            return NotFound("Gói package không tồn tại");
+        }
+
+        // Kiểm tra kết quả phản hồi từ VNPay
+        if (response.Success && response.VnPayResponseCode == "00")
+        {
+            // Nếu thanh toán thành công, cập nhật trạng thái của gói package
+           
+            _context.CurrentPackage.Update(package);
+            await _context.SaveChangesAsync();
+
+            // Thực hiện các hành động khác sau khi thanh toán thành công
+
+            return Redirect("http://localhost:3000/characters/package");
+        }
+        else
+        {
+            // Nếu thanh toán không thành công, xử lý phản hồi tương ứng
+            // (ví dụ: gửi email thông báo, cập nhật trạng thái của gói package, v.v.)
+            
+            _context.CurrentPackage.Update(package);
+            await _context.SaveChangesAsync();
+
+            return Redirect("http://localhost:3000/characters/package");
+        }
+    }
 
 
 
@@ -121,4 +186,8 @@ public class PackageController : ControllerBase
     {
         return _context.Package.Any(e => e.PackageID == id);
     }
+
+
+
+
 }

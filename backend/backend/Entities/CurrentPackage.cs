@@ -14,6 +14,8 @@ namespace backend.Entities
         public DateTime Date { get; set; }
 
         
-    
-     }
+
+        public virtual Package Package { get; set; }
+
+    }
 }

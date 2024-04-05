@@ -59,14 +59,14 @@ namespace backend.Service
 
 
 
-        public string CreatePaymentUrl2(Package package, HttpContext context)
+        public string CreatePaymentUrlForPackage(Package package, HttpContext context)
         {
             _memoryCache.Set($"Package_{package.PackageID}", package, TimeSpan.FromMinutes(10));
             var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
             var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
             var tick = DateTime.Now.Ticks.ToString();
             var pay = new VnPayLibrary();
-            var urlCallBack = _configuration["PaymentCallBack:ReturnUrl"];
+            var urlCallBack = _configuration["PaymentCallbackPackage:ReturnUrl"];
 
             pay.AddRequestData("vnp_Version", _configuration["Vnpay:Version"]);
             pay.AddRequestData("vnp_Command", _configuration["Vnpay:Command"]);
@@ -83,6 +83,10 @@ namespace backend.Service
             var paymentUrl = pay.CreateRequestUrl(_configuration["Vnpay:BaseUrl"], _configuration["Vnpay:HashSecret"]);
 
             return paymentUrl;
+        }
+        public Package GetPaymentModelFromCachePackage(int PackageID)
+        {
+            return _memoryCache.Get<Package>($"Package_{PackageID}");
         }
 
 
