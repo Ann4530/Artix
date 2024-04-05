@@ -146,8 +146,8 @@ function UploadArtwork() {
     return (
         <>
 
-            <div className='form'>
-                <div className='userInfoForm' style={{ backgroundColor: `rgba(${theme.rgbBackgroundColor},0.95)` }}>
+            <div className='formup'>
+                <div className='userInfoForm' style={{ backgroundColor: `rgba(${theme.rgbBackgroundColor})` }}>
                     <form onSubmit={formik.handleSubmit}>
                         <CustomizedTypography variant="h4" component="h2" gutterBottom>
                             Share Us Your Creation

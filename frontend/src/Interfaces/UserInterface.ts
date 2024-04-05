@@ -20,7 +20,7 @@ export interface Account {
 export interface Creator {
   creatorID: string | "0",
   accountID: string | "0",
-  paypalAccountID: string | number,
+  paymentID: string | number,
   userName: string | "",
   profilePicture: string | "",
   backgroundPicture: string | "",

@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
@@ -10,12 +11,12 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ListTag } from '../../share/ListofTag.js';
 import { ThemeContext } from '../Themes/ThemeProvider.tsx';
-import { GetArtById } from '../../API/ArtworkAPI/GET.tsx';
-import { Artwork } from '../../Interfaces/ArtworkInterfaces.ts';
+import { GetArtById, GetArtsPaymentStatus } from '../../API/ArtworkAPI/GET.tsx';
+import { Artwork, ArtworkPaymentStatus, DownloadArtwork } from '../../Interfaces/ArtworkInterfaces.ts';
 import { GetCreatorByID } from '../../API/UserAPI/GET.tsx';
 import { Creator } from '../../Interfaces/UserInterface.ts';
 import Chip from '@mui/material/Chip';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import {Download} from '@mui/icons-material';
 import { Button, Divider } from '@mui/material';
 import { Tag } from '../../Interfaces/TagInterface.ts';
 import { GetTagByArtId } from '../../API/TagAPI/GET.tsx';
@@ -23,26 +24,31 @@ import { Watermark } from '../StyledMUI/AppLogo.jsx';
 import { Link } from 'react-router-dom';
 import { DeleteArtById } from '../../API/ArtworkAPI/DELETE.tsx';
 import ArtShopConfirm from './ArtShopConfirm.jsx';
+import html2canvas from 'html2canvas';
+import ArtShopDialog from './ArtShopDialog.jsx';
 
 export default function PostWork() {
   const colors = ["#82c87e", "#c07ec8", "#c89c7e", "#7E8DC8", "#C07EC8", "#C87E8A"];
   const { theme } = useContext(ThemeContext)
   const { id } = useParams();
-  const [artwork, setArtwork] = useState<Artwork>()
+  const [artwork, setArtwork] = useState<DownloadArtwork>()
+  const [status, setStatus] = useState<ArtworkPaymentStatus>()
   const [creator, setCreator] = useState<Creator>()
   const [tags, setTags] = useState<Tag[]>([])
   const savedAuth = sessionStorage.getItem('auth');
   const savedUser: Creator = savedAuth ? JSON.parse(savedAuth) : null;
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openDowload, setOpenDowload] = useState(false);
   const navigate = useNavigate()
   useEffect(() => {
-    
     const getArtWork = async () => {
       setLoading(true)
-      const artwork = await GetArtById(id ? id : "1");
-      setArtwork(artwork)
-      const creator = await GetCreatorByID(artwork ? artwork.creatorID : "1")
+      const artworkbyid:Artwork = await GetArtById(id ? id : "1");
+      setArtwork(artworkbyid)
+      const paystatus = await GetArtsPaymentStatus(savedUser?.creatorID,artworkbyid.artworkID)
+      setStatus(paystatus)
+      const creator = await GetCreatorByID(artworkbyid ? artworkbyid.creatorID : "1")
       setCreator(creator)
       setLoading(false)
     }
@@ -66,17 +72,53 @@ export default function PostWork() {
     setOpen(!open);
   }
 
+// Handle Download Arkwork
+const handleClose = () => {
+  setOpen(false);
+  setOpenDowload(false);
+};
+const downloadSectionAsImage = async (elementId) => {
+  const element = document.getElementById(elementId);
+
+  if (element) {
+      const canvas = await html2canvas(element);
+      const imageUrl = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = imageUrl;
+      link.download = "image.png";
+      link.click();
+      handleClose();
+  }
+};
+
+const handleYesClick = async () => {
+  await downloadSectionAsImage(artwork?.idDowLoad);
+}
+
+const handleDownload = async (id: string) => {
+  let downloadArtwork:DownloadArtwork = {
+    ...artwork,
+    idDowLoad: id
+  }
+  setArtwork(downloadArtwork);
+  setOpenDowload(true);
+};
+
   const handleDelete = async()=>{
     try{
       setLoading(true)
       const response = await DeleteArtById(artwork?.artworkID??"")
       console.log(response.data)
       setLoading(false)
-      navigate(`/characters/profile/${savedUser.creatorID}`)
+      navigate(`/characters/profile/${savedUser?.creatorID}`)
     }catch(err){
       console.log(err)
     }
   }
+  function formatMoney(amount) {
+    amount *= 1000; 
+    return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+}
   function TagList() {
     return (
       <>
@@ -98,6 +140,7 @@ export default function PostWork() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      {openDowload && <ArtShopDialog open={openDowload} handleClose={handleClose} handleYesClick={handleYesClick} />}
       <div className='poswork'
         style={{ backgroundColor: theme.backgroundColor, paddingBottom: '50px', color: theme.color }}
       >
@@ -105,7 +148,7 @@ export default function PostWork() {
           {artwork?.purchasable ? <Watermark /> : ""}
           <div className='imgpost' style={{ backgroundColor: theme.hoverBackgroundColor }}>
             
-            <img style = {{pointerEvents: artwork?.purchasable ? "none" : "auto" }} alt={artwork?.artworkName} src={`data:image/jpeg;base64,${artwork?.imageFile}`} /> 
+            <img id={`img-${artwork?.artworkID}`} style = {{pointerEvents: artwork?.purchasable ? "none" : "auto" }} alt={artwork?.artworkName} src={`data:image/jpeg;base64,${artwork?.imageFile}`} /> 
            
           </div>
           <Divider orientation='vertical' />
@@ -137,16 +180,23 @@ export default function PostWork() {
                 <h4 style={{ paddingTop: "5px" }} className='addfavourite'>Comment</h4>
               </a>
             </div>
-            {creator?.creatorID === savedUser.creatorID ?
+            {creator?.creatorID === savedUser?.creatorID ?
               <Button onClick={handleDelete} variant='contained' color='error' >Delete Artwork</Button>
               :
-              ""
-            }
-            <div style={{ margin: 'auto 5px', }}>
-              {artwork?.purchasable ?
-                  <Chip icon={<AttachMoneyIcon />} label={artwork?.price} onClick={handleOpen} style={{ fontSize: '20px', padding: '20px', fontWeight: '600', backgroundColor: '#61dafb' }} />
-                : ""}
+              <div style={{ margin: 'auto 5px', }}>
+              {artwork?.purchasable===true && status?.status===false ?
+                  <Chip label= {formatMoney(artwork?.price)} onClick={handleOpen} style={{ fontSize: '20px', padding: '20px', fontWeight: '600', backgroundColor: '#61dafb' }} />
+                : 
+                <Button sx={{ minWidth: '30%',marginBottom:'5px' }}
+                        variant="contained" size="small" title='Dowload' onClick={() => handleDownload(`img-${artwork?.artworkID}`)}
+                        endIcon={ <Download />}
+                        >
+                    Download Artwork                       
+                  </Button>
+                }
             </div>
+            }
+            
           </div>
           <div id='"#comment"'>
             <Comments />
@@ -157,3 +207,4 @@ export default function PostWork() {
     </Box >
   )
 }
+

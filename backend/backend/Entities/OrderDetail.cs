@@ -13,8 +13,8 @@ namespace backend.Entities
         public double Price { get; set; }
         public Order Order { get; set; }
         public string? PurchaseConfirmationImage { get; set; }
-         [NotMapped]
-        public  string? email { get; set; }
+        [NotMapped]
+        public string email { get; set; }
 
     }
 }

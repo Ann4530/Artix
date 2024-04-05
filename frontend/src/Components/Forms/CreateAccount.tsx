@@ -66,7 +66,6 @@ export default function CreateAccount() {
   };
   // Account Creation Started Here!
   const { theme } = useContext(ThemeContext)
-  const [accountID, setAccountID] = useState("")
   const formik = useFormik({
     validateOnChange: false,
     validateOnBlur: false,
@@ -97,8 +96,8 @@ export default function CreateAccount() {
       }
       let creator: Creator = {
         creatorID: "0",
-        accountID: accountID,
-        paypalAccountID: 1,
+        accountID: "0",
+        paymentID: 1,
         userName: values.userName,
         profilePicture: values.profilePicture,
         backgroundPicture: values.backgroundPicture,
@@ -118,10 +117,9 @@ export default function CreateAccount() {
       const PostAccount = async () => {
         try {
           setIsLoading(true)
-          await PostUserAccount(account)
-          console.log(`Post Account successfully: `)
-          const userAccount = await GetAccountByEmail(values.email)
-          let creatorWithAccountID = { ...creator, accountID: userAccount ? userAccount.accountID : "1" }
+          let newAccount = await PostUserAccount(account)
+          console.log(`Post Account successfully: ${newAccount}`)
+          let creatorWithAccountID = { ...creator, accountID: newAccount ? newAccount.accountID : "1" }
           await PostCreator(creatorWithAccountID)
           console.log(`Post Creator successfully: `)
           setIsLoading(false)
