@@ -15,13 +15,15 @@ import { useAuth } from '../AuthenContext.tsx';
 import { Creator } from '../../Interfaces/UserInterface';
 import { LightDarkSwitch } from './CustomizedLightDarkSwitch.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CurrentPackage } from '../../Interfaces/Package.ts';
 
 //Create an interface for your function to assign types to its props
 interface CustomizedDropdownProps {
   user: Creator;
   handleClickAsGuest: any;
+  pack: CurrentPackage | null;
 }
-export default function CustomizedDropdown({ user, handleClickAsGuest }: CustomizedDropdownProps) {
+export default function CustomizedDropdown({ user, handleClickAsGuest,pack }: CustomizedDropdownProps) {
 
 
   const { theme, toggleTheme, dark } = useContext(ThemeContext)
@@ -150,10 +152,9 @@ export default function CustomizedDropdown({ user, handleClickAsGuest }: Customi
       </Typography>
     )
   }
-
   return (
     <div>
-      {premiumText()}
+      {pack?.packageID=== 2? premiumText() : ""}
       <IconButton
         onClick={handleClickDropdown}
         size="small"

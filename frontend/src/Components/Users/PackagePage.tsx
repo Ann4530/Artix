@@ -8,20 +8,29 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import HomePage from './MainPage/HomePage';
-import { Package } from '../../Interfaces/Package.ts';
-import { GetPackage } from '../../API/PackageAPI/GET.tsx';
+import { CurrentPackage, Package } from '../../Interfaces/Package.ts';
+import { GetCurrentPackageByCreatorID, GetPackage } from '../../API/PackageAPI/GET.tsx';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Creator } from '../../Interfaces/UserInterface.ts';
 
 export default function PackagePage() {
     const { theme, dark } = useContext(ThemeContext)
     const [packageService, SetPackgeService] = useState<Package[]>()
+    const [currentPackage, setCurrentPackage] = useState<CurrentPackage>();
     const [loading, setLoading] = useState(false);
+    const savedAuth = sessionStorage.getItem('auth');
+    // Check if there's any auth data saved and parse it
+    const user: Creator = savedAuth ? JSON.parse(savedAuth) : null;
+    // Now 'auth' contains your authentication state or null if there's nothing saved
     useEffect(() => {
         const getPackage = async () => {
             setLoading(true)
             let packageList: Package[] | undefined = await GetPackage()
             SetPackgeService(packageList ?? [])
+            let servicePackage: CurrentPackage | undefined = await GetCurrentPackageByCreatorID(user.creatorID)
+            setCurrentPackage(servicePackage)
+            console.log(servicePackage)
             setLoading(false)
         }
         getPackage()
@@ -31,15 +40,16 @@ export default function PackagePage() {
         console.log('clicked')
     }
 
-    const currentPack = ()=>{
-        return(
-            <Typography variant='h5' color="Highlight">Your Current Package</Typography>
+    const currentPack = () => {
+        return (
+            <Typography sx={{textAlign:"center"}} variant='h5' color="Highlight">Your Current Package</Typography>
         )
     }
 
+    console.log(currentPackage?.packageID)
     const defaultCardStyle = (packageService: Package) => {
         return (
-            <Card className='cardDefault' sx={{ backgroundImage: 'url("/images/default.jpg")'}}>
+            <Card className='cardDefault' sx={{ backgroundImage: 'url("/images/default.jpg")' }}>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         {packageService.packageName}
@@ -60,12 +70,13 @@ export default function PackagePage() {
                 </CardActionArea>
                 <CardActions>
                 </CardActions>
+                {currentPackage?.packageID===1 && currentPack()}
             </Card>
         )
     }
     const premiumCardStyle = (packageService: Package) => {
         return (
-            <Card className='cardPremium' sx={{ backgroundImage: 'url("/images/gold.jpg")'}}><CardContent>
+            <Card className='cardPremium' sx={{ backgroundImage: 'url("/images/gold.jpg")' }}><CardContent>
                 <Typography gutterBottom variant="h5" color="gold" component="div">
                     {packageService.packageName}
                 </Typography>
@@ -89,12 +100,12 @@ export default function PackagePage() {
                             },
                         }}
                         className='buyBtn' onClick={handleClick} size="small">
-                        Purchase
+                        {currentPackage?.packageID===2?"You're Using This Package":"Purchase"}
                     </Button>
                 </CardActionArea>
                 <CardActions>
                 </CardActions>
-
+                {currentPackage?.packageID===2 && currentPack()}
             </Card>
         )
     }

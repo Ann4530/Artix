@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Package,CurrentPackage } from '../../Interfaces/Package';
 
 const packageUrl = `https://localhost:7233/api/Package`
-const currentPackage = ``
+const currentPackage = `https://localhost:7233/api/CurrentPackage/ByCreatorID/`
 
 export async function GetPackage() {
     try{

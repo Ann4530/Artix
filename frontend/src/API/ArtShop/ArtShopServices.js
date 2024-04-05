@@ -3,6 +3,8 @@ import axios from "axios";
 const arturl = "https://localhost:7233/api/artworks";
 const arturlVnpayPayment = "https://localhost:7233";
 
+const packageVnPayment = ""
+
 export const getArtWithStatus = (id, pageNumber) => {
   return axios.get(
     arturl +

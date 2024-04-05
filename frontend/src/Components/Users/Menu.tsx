@@ -17,6 +17,8 @@ import { GetCreatorByID } from '../../API/UserAPI/GET.tsx';
 import { Creator } from '../../Interfaces/UserInterface';
 import "../../css/Package.css"
 import PremiumTypography from '../StyledMUI/PremiumTypography.tsx';
+import { GetCurrentPackageByCreatorID } from '../../API/PackageAPI/GET.tsx';
+import { CurrentPackage } from '../../Interfaces/Package.ts';
 
 export default function Menu() {
   const { theme } = useContext(ThemeContext);
@@ -28,13 +30,22 @@ export default function Menu() {
 
   const [isOpen, handleClick] = useHandleClick()
   const [avatar, setAvatar] = useState<Creator>()
+  const [pack,setPack] = useState<CurrentPackage>()
 
   useEffect(() => {
     const getAvatar = async () => {
       const avatar = await GetCreatorByID(user ? user.creatorID : '0')
       setAvatar(avatar)
     }
-    if (user !== null) { getAvatar() }
+    const getPackage = async () => {
+      const pack = await GetCurrentPackageByCreatorID(user ? user.creatorID : '0')
+      setPack(pack)
+    }
+    if (user !== null) {
+      getAvatar();
+      getPackage()
+    }
+
   }, [])
   const disabledButtons = () => {
 
@@ -42,7 +53,7 @@ export default function Menu() {
 
   function LoginButton() {
     return (
-      <Link to={"/"}> <h3 style={{fontWeight:'normal'}}>Login</h3></Link>
+      <Link to={"/"}> <h3 style={{ fontWeight: 'normal' }}>Login</h3></Link>
     )
   }
   return (
@@ -73,14 +84,16 @@ export default function Menu() {
               {user === null ? <LoginButton /> : ""}
               <Button onClick={user === null ? () => handleClick : () => disabledButtons()}
                 color="inherit"><Link to={user !== null ? "artworkform" : ""}>
-                  <h3 style={{fontWeight:'normal'}}>
+                  <h3 style={{ fontWeight: 'normal' }}>
                     Publish Your Works
                   </h3>
                 </Link>
               </Button>
               <CustomizedDropdown
                 handleClickAsGuest={handleClick}
-                user={avatar ? avatar : user} />
+                user={avatar ? avatar : user} 
+                pack = {pack??null}
+                />
             </Box>
           </Toolbar>
         </AppBar>
