@@ -200,5 +200,65 @@ namespace backend.Controllers
             }
         }
 
+
+
+        //[HttpGet("CheckCurrentPackage")]
+        //public async Task<IActionResult> PaymentCallbackPackage()
+        //{
+        //    var response = _vnPayService.PaymentExecute(Request.Query);
+        //    int packageId = int.Parse(HttpContext.Request.Query["PackageID"]); // Lấy PackageID từ yêu cầu
+
+        //    // Kiểm tra response
+        //    if (response == null)
+        //    {
+        //        // Nếu response là null, điều này có thể dẫn đến lỗi
+        //        return Redirect("~/fail-page");
+        //    }
+
+        //    // Lấy model từ cache
+        //    var model = _vnPayService.GetPaymentModelFromCachePackage(packageId);
+
+        //    // Kiểm tra model
+        //    if (model == null)
+        //    {
+        //        // Nếu model là null, không thể thêm vào OrderDetail
+        //        return Redirect("~/fail-page");
+        //    }
+
+        //    if (response.Success && response.VnPayResponseCode == "00")
+        //    {
+        //        var package = await _context.Package
+           
+        //   .Select(a => new Package
+        //   {
+        //       PackageID = a.PackageID,
+        //       PackageName = a.PackageName,
+        //       PackageDescription = a.PackageDescription,
+        //       PackagePrice = a.PackagePrice
+        //   })
+        //   .FirstOrDefaultAsync(a => a.PackageID == model.PackageID);
+
+        //        if (package == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        // Thêm model vào OrderDetail và lưu thay đổi
+        //        _context.Package.Add(model);
+        //        await _context.SaveChangesAsync();
+                
+               
+
+               
+        //        return Redirect("http://localhost:3000/characters/package");
+        //    }
+        //    else
+        //    {
+        //        return Redirect("http://localhost:3000/characters/package");
+        //    }
+        //}
+
+
+
+
     }
 }
