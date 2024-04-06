@@ -36,7 +36,7 @@ export default function RecommendedWords({ artworkList, user }) {
                       // Add other styling properties as required for your specific icon
                       bottom: 0,
                       right: 0,
-                      zIndex: 2 // Ensure it's above the image
+                      zIndex: 0 // Ensure it's above the image
                     }}
                       fontSize='large'
                     />

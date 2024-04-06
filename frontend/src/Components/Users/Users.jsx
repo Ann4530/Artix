@@ -58,8 +58,8 @@ export default function Users() {
         <Outlet />
         {/* Outlet is use to render child components */}
         {/* </div> */}
-        <Footer />
       </Background>
+      <Footer />
     </div>
   )
 }
