@@ -182,7 +182,7 @@ public class CreatorController : ControllerBase
         return creator;
     }
 
-    [HttpGet("NotProfile/NotBackground/{AccountID}")]
+    [HttpGet("NotProfile/NotBackgroundByAccountID/{AccountID}")]
     public async Task<ActionResult<IEnumerable<Creator>>> GetCreatorsNotProAndBackByAccountID(int AccountID)
     {
         var creator = await _context.Creators
