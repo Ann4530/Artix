@@ -1,6 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "C28xcjuZCkCfw9+/DiNsQY6hY0+DIHLEM3TGAvLL0XKo67Ivtc5QObCfpYxPOu+qL2SGlB9fRE8gZBGne//Rww==",
+=======
+<<<<<<< HEAD
+  "dgSpecHash": "buRgemcsej4Swn5Af5kPhjs0gNWAjUo4Gf3WAsrYjvbtcF9+qa+UxTawRlIpcq0Y+RD0FUUCraxdrM3gnnMOHQ==",
+=======
+  "dgSpecHash": "TkmQFdniGv3EMqnlsPWMv3vsB205Y3bbfXh/9ttLC/UA2ImGmT7IP5YDpXHdo3Sqi1C6mdghQMfeF8Vhm6zqxw==",
+>>>>>>> 359dd9808a18ef7f42fa22aefbb28e31d753595b
+>>>>>>> 1c71f23c65699a35e435f5aa214369ebeba7eb09
   "success": true,
   "projectFilePath": "D:\\SWP391-Artix\\backend\\backend\\backend.csproj",
   "expectedPackageFiles": [
@@ -85,6 +93,18 @@
   ],
   "logs": [
     {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file D:\\FPT_Learning\\SWP391\\SWP391-Artix\\backend\\backend\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    },
+    {
+>>>>>>> 359dd9808a18ef7f42fa22aefbb28e31d753595b
+>>>>>>> 1c71f23c65699a35e435f5aa214369ebeba7eb09
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,

@@ -4035,6 +4035,18 @@
   },
   "logs": [
     {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file D:\\FPT_Learning\\SWP391\\SWP391-Artix\\backend\\backend\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    },
+    {
+>>>>>>> 359dd9808a18ef7f42fa22aefbb28e31d753595b
+>>>>>>> 1c71f23c65699a35e435f5aa214369ebeba7eb09
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
