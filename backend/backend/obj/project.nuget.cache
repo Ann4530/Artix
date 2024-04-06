@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "79QRqM7FpgxlVwufX42GU1L4WLlUyhtkC2UvS1PQKdfMPS6kDT6txtRr7Bd2lKTHq1qLIUb0HE0zH006B4XdYA==",
+  "dgSpecHash": "buRgemcsej4Swn5Af5kPhjs0gNWAjUo4Gf3WAsrYjvbtcF9+qa+UxTawRlIpcq0Y+RD0FUUCraxdrM3gnnMOHQ==",
   "success": true,
   "projectFilePath": "/Volumes/Ze_Data/Document/ReactProjects/SWP391-Artix/backend/backend/backend.csproj",
   "expectedPackageFiles": [
@@ -84,12 +84,6 @@
     "/Users/hendrix/.nuget/packages/system.threading.channels/6.0.0/system.threading.channels.6.0.0.nupkg.sha512"
   ],
   "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file /Volumes/Ze_Data/Document/ReactProjects/SWP391-Artix/backend/backend/obj/project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    },
     {
       "code": "NU1701",
       "level": "Warning",
