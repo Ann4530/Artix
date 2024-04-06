@@ -27,9 +27,9 @@ public class ArtworksController : ControllerBase
     {
         var artworks = await _context.Artworks
             .OrderBy(a => a.DateCreated) // Sắp xếp theo ngày tạo
-            .Take(5) // Lấy 5 artwork đầu tiên
+            .Take(10)
             .Include(a => a.ArtworkTag) // Kèm theo thông tin tag của artwork
-            .Select(a => new Artworks // Tạo đối tượng DTO để chứa thông tin cần thiết
+            .Select(a => new Artworks 
             {
                 ArtworkID = a.ArtworkID,
                 CreatorID = a.CreatorID,
