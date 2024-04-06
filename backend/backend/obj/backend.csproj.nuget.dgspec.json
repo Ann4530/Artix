@@ -1,7 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
     "D:\\FPT_Learning\\SWP391\\SWP391-Artix\\backend\\backend\\backend.csproj": {}
   },
   "projects": {
@@ -17,22 +16,6 @@
         "configFilePaths": [
           "C:\\Users\\bolic\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-=======
-    "/Volumes/Ze_Data/Document/ReactProjects/SWP391-Artix/backend/backend/backend.csproj": {}
-  },
-  "projects": {
-    "/Volumes/Ze_Data/Document/ReactProjects/SWP391-Artix/backend/backend/backend.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "/Volumes/Ze_Data/Document/ReactProjects/SWP391-Artix/backend/backend/backend.csproj",
-        "projectName": "backend",
-        "projectPath": "/Volumes/Ze_Data/Document/ReactProjects/SWP391-Artix/backend/backend/backend.csproj",
-        "packagesPath": "/Users/hendrix/.nuget/packages/",
-        "outputPath": "/Volumes/Ze_Data/Document/ReactProjects/SWP391-Artix/backend/backend/obj/",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "/Users/hendrix/.nuget/NuGet/NuGet.Config"
->>>>>>> 9ff9256f68d7b12440ece7992a852d9010bb6f57
         ],
         "originalTargetFrameworks": [
           "net8.0"
