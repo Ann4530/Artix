@@ -43,43 +43,43 @@ export default function SeeMoreOfArt1() {
   function ArtWorkList() {
     return (
       <>
-        {artworkList.map((work: Artwork) => (
-          <Link key={work.artworkID} to={`artwork/${work.artworkID}`}>
-
-          <ImageListItem key={work.artworkID}>
-            {work.purchasable ?
-              <AttachMoneyIcon style={{
-                position: 'absolute',
-                backgroundColor: 'green', // Hex code for a yellow color
-                color: 'white', // Icon color
-                borderRadius: '50%', // Makes the background rounded
-                padding: 'auto', // Adjust padding to manage the size of the rounded background
-                margin: '5px', // Make the icon floating inside the image
-                fontSize: '40px', // Adjust the size of the icon as needed
-                // Add other styling properties as required for your specific icon
-                bottom: 0,
-                right: 0,
-                zIndex: 2 // Ensure it's above the image
-              }} 
-              fontSize='large'
-              />
-              : ""}
-            <img
-              style={{ cursor: 'pointer' }}
-              // onClick={() => handleClick(work.artworkID)}
-              src={`data:image/jpeg;base64,${work.imageFile}`}
-              alt={work.artworkName}
-              loading="lazy"
-            />
-          </ImageListItem></Link>
-
-        ))}
+        <ImageList variant="masonry" cols={4}>
+          {artworkList.map((work: Artwork) => (
+            <Link key={work.artworkID} to={`artwork/${work.artworkID}`}>
+              <ImageListItem key={work.artworkID}>
+                {work.purchasable ?
+                  <AttachMoneyIcon style={{
+                    position: 'absolute',
+                    backgroundColor: 'green', // Hex code for a yellow color
+                    color: 'white', // Icon color
+                    borderRadius: '50%', // Makes the background rounded
+                    padding: 'auto', // Adjust padding to manage the size of the rounded background
+                    margin: '5px', // Make the icon floating inside the image
+                    fontSize: '40px', // Adjust the size of the icon as needed
+                    // Add other styling properties as required for your specific icon
+                    bottom: 0,
+                    right: 0,
+                    zIndex: 2 // Ensure it's above the image
+                  }}
+                    fontSize='large'
+                  />
+                  : ""}
+                <img
+                  style={{ cursor: 'pointer' }}
+                  // onClick={() => handleClick(work.artworkID)}
+                  src={`data:image/jpeg;base64,${work.imageFile}`}
+                  alt={work.artworkName}
+                  loading="lazy"
+                />
+              </ImageListItem></Link>
+          ))}
+        </ImageList>
       </>
     )
   }
 
   return (
-    <div className='seemorecommentwork' style={{ marginBottom: '10%' }}>
+    <div className='seemorecommentwork' style={{ paddingTop: "2%", paddingBottom: '5%' }}>
       <Box className='box'
         sx={{
           color: theme.color,
@@ -88,16 +88,14 @@ export default function SeeMoreOfArt1() {
           width: '95%',
           margin: 'auto',
           borderRadius: '5px',
-          marginBottom: '15px',
         }}>
         <div className='content-recomment'>
           <Typography variant='h5'>Recommended Works:</Typography>
 
           <div className='listimage'>
             <Box className='boxlistimage'>
-              <ImageList variant="masonry" cols={4} gap={7}>
-                {artworkList.length !== 0 ? <ArtWorkList /> : <PlaceHoldersImageCard />}
-              </ImageList></Box>
+              {artworkList.length !== 0 ? <ArtWorkList /> : <PlaceHoldersImageCard />}
+            </Box>
           </div></div>
         <div className='pagination'>
 

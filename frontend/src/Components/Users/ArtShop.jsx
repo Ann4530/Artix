@@ -85,112 +85,113 @@ function ArtShop() {
     }, [dataState?.currentPage])
     const { theme } = useContext(ThemeContext)
     return (
-        <Box className='box'
-            sx={{
-                color: '#61dafb',
-                backgroundColor: `rgba(${theme.rgbBackgroundColor},0.50)`,
-                backgroundImage:`url("/images/shopBackground.jpg")`,
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
-                transition: theme.transition,
-                width: '86%',
-                margin: 'auto',
-                borderRadius: '5px',
-                marginBottom: '100px',
-                paddingLeft: 5,
-                paddingRight: 5,
-                paddingBottom: 5,
-                transform: 'translateY(40px)'
-            }}
-        >
-            <Backdrop
-                sx={{ color: '#fff', zIndex: 99 }}
-                open={open}
+        <div style={{paddingTop: "2%",paddingBottom:"5%"}}>
+            <Box className='box'
+                sx={{
+                    color: '#61dafb',
+                    backgroundColor: `rgba(${theme.rgbBackgroundColor},0.50)`,
+                    backgroundImage: `url("/images/shopBackground.jpg")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    transition: theme.transition,
+                    width: '86%',
+                    margin: 'auto',
+                    borderRadius: '5px',
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                    paddingBottom: '1%',
+
+                }}
             >
-                <CircularProgress color="inherit" />
-            </Backdrop>
-            {openDowload && <ArtShopDialog open={openDowload} handleClose={handleClose} handleYesClick={handleYesClick} />}
-            <h1>
-                Purchasable Artworks:
-            </h1>
-            <Box sx={{ display: "flex", gap: 4, flexWrap: "wrap", mt: 4, justifyContent: 'center' }}>
-                {dataState?.listItem?.map((art, index) => {
-                    return (
-                        <div class="card1" key={index}>
-                            <div class="card1-info">
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: 99 }}
+                    open={open}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+                {openDowload && <ArtShopDialog open={openDowload} handleClose={handleClose} handleYesClick={handleYesClick} />}
+                <h1>
+                    Purchasable Artworks:
+                </h1>
+                <Box sx={{ display: "flex", gap: 4, flexWrap: "wrap", mt: 4, justifyContent: 'center' }}>
+                    {dataState?.listItem?.map((art, index) => {
+                        return (
+                            <div class="card1" key={index}>
+                                <div class="card1-info">
 
-                                <Card sx={{ width: 280, height: 'auto', background: theme.backgroundColor3, display: "flex", flexDirection: "column", justifyContent: "space-between", borderRadius: 1 }}>
-                                    <Link to={`../artwordrecomment/artwork/${art?.artworkID}`}>
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h6" component="div">
-                                                {art?.artworkName}
-                                            </Typography>
-                                            <div>
-                                                <img style={{ pointerEvents: 'none', objectFit: 'cover' }} id={`img-${index}`} className='w-full h-500' src={"data:image/jpeg;base64," + art?.image} alt={art?.artworkName} />
-                                            </div>
-
-                                            <Typography variant="body2" color="text.secondary">
-                                                <IconButton aria-label="add to favorites">
-                                                    <FavoriteBorderIcon sx={{ color: pink[500] }} />
-                                                </IconButton>
-                                                {art?.likes}
-                                                <IconButton aria-label="share">
-                                                    <Discount sx={{ color: pink[500] }} />
-                                                </IconButton>
-                                                {formatMoney(art?.price)}
-                                            </Typography>
-                                        </CardContent></Link>
-                                    <CardActions  >
+                                    <Card sx={{ width: 280, height: 'auto', background: theme.backgroundColor3, display: "flex", flexDirection: "column", justifyContent: "space-between", borderRadius: 1 }}>
                                         <Link to={`../artwordrecomment/artwork/${art?.artworkID}`}>
-                                            <Button sx={{ minWidth: '30%', margin: '0px 50px 5px 15px' }} variant="contained" size="small" title='Detail'><More /></Button></Link>
-                                        {/* {i?.purchasable && <Button sx={{ minWidth: 0 }} variant="contained" size="small" title='Buy'><Shop /></Button>} */}
-                                        {
-                                            art?.status === true
-                                            &&
-                                            <Button sx={{ minWidth: '30%', marginBottom: '5px' }}
-                                                variant="contained" size="small" title='Dowload' onClick={() => handleDownload(`img-${index}`)}>
-                                                <Download />
-                                            </Button>}
-                                    </CardActions>
-                                </Card>
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h6" component="div">
+                                                    {art?.artworkName}
+                                                </Typography>
+                                                <div>
+                                                    <img style={{ pointerEvents: 'none', objectFit: 'cover' }} id={`img-${index}`} className='w-full h-500' src={"data:image/jpeg;base64," + art?.image} alt={art?.artworkName} />
+                                                </div>
+
+                                                <Typography variant="body2" color="text.secondary">
+                                                    <IconButton aria-label="add to favorites">
+                                                        <FavoriteBorderIcon sx={{ color: pink[500] }} />
+                                                    </IconButton>
+                                                    {art?.likes}
+                                                    <IconButton aria-label="share">
+                                                        <Discount sx={{ color: pink[500] }} />
+                                                    </IconButton>
+                                                    {formatMoney(art?.price)}
+                                                </Typography>
+                                            </CardContent></Link>
+                                        <CardActions  >
+                                            <Link to={`../artwordrecomment/artwork/${art?.artworkID}`}>
+                                                <Button sx={{ minWidth: '30%', margin: '0px 50px 5px 15px' }} variant="contained" size="small" title='Detail'><More /></Button></Link>
+                                            {/* {i?.purchasable && <Button sx={{ minWidth: 0 }} variant="contained" size="small" title='Buy'><Shop /></Button>} */}
+                                            {
+                                                art?.status === true
+                                                &&
+                                                <Button sx={{ minWidth: '30%', marginBottom: '5px' }}
+                                                    variant="contained" size="small" title='Dowload' onClick={() => handleDownload(`img-${index}`)}>
+                                                    <Download />
+                                                </Button>}
+                                        </CardActions>
+                                    </Card>
+                                </div>
                             </div>
-                        </div>
-                    )
-                })
-                }
-            </Box>
-            <Box sx={{ display: "flex", justifyContent: "center", margin: "15px 0px 10px 0px",padding:"2%" }}>
-                <Stack spacing={2}>
-                    <Pagination
-                        sx={{
-                            background: theme.color, borderRadius: "20px",
-                            // Styling the pagination items
-                            '& .MuiPaginationItem-root': {
-                                color: theme.backgroundColor, // Normal state color
-                                borderColor: 'white',
-                                '&:hover': {
-                                    backgroundColor: theme.backgroundColor, // Hover state color
-                                    color: theme.color
-                                },
-                                '&.Mui-selected': {
-                                    backgroundColor: theme.backgroundColor, // Selected item color
-                                    color: theme.color,
+                        )
+                    })
+                    }
+                </Box>
+                <Box sx={{ display: "flex", justifyContent: "center", margin: "15px 0px 10px 0px", padding: "2%" }}>
+                    <Stack spacing={2}>
+                        <Pagination
+                            sx={{
+                                background: theme.color, borderRadius: "20px",
+                                // Styling the pagination items
+                                '& .MuiPaginationItem-root': {
+                                    color: theme.backgroundColor, // Normal state color
+                                    borderColor: 'white',
                                     '&:hover': {
-                                        backgroundColor: 'darkgray', // Hover color for the selected item
+                                        backgroundColor: theme.backgroundColor, // Hover state color
+                                        color: theme.color
+                                    },
+                                    '&.Mui-selected': {
+                                        backgroundColor: theme.backgroundColor, // Selected item color
+                                        color: theme.color,
+                                        '&:hover': {
+                                            backgroundColor: 'darkgray', // Hover color for the selected item
+                                        }
                                     }
                                 }
-                            }
-                        }}
-                        count={dataState?.totalPages}
-                        onChange={(e, page) => {
-                            setDataSate((pre) => ({
-                                ...pre,
-                                currentPage: page
-                            }))
-                        }} />
-                </Stack>
+                            }}
+                            count={dataState?.totalPages}
+                            onChange={(e, page) => {
+                                setDataSate((pre) => ({
+                                    ...pre,
+                                    currentPage: page
+                                }))
+                            }} />
+                    </Stack>
+                </Box>
             </Box>
-        </Box>
+        </div>
     )
 }
 

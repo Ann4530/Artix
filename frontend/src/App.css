@@ -288,7 +288,7 @@ custom-scrollbar::-webkit-scrollbar-thumb:hover {
 .homepage {
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
+  padding-bottom: 30px;
 }
 
 .seemore {
