@@ -217,8 +217,18 @@ export default function TransactionHistory() {
                         key={order.orderID}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                       >
-                        <TableCell component="th" scope="row">
-                          {order.orderID}
+                         <TableCell component="th" scope="row">
+                          <Typography
+                            sx={{
+                              fontStyle: "italic",
+                              color: theme.color,
+                              width: "auto",
+                              ":hover": { textDecoration: "underline" },
+                            }}
+                            onClick={() => redirect(order.artWorkID)}
+                          >
+                            View
+                          </Typography>
                         </TableCell>
                         {/* userNamereceiver là của người mua */}
                         <TableCell align="left">{order.buyerName}</TableCell>
@@ -263,8 +273,18 @@ export default function TransactionHistory() {
                         key={order.orderID}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                       >
-                        <TableCell component="th" scope="row">
-                          View Artwork
+                         <TableCell component="th" scope="row">
+                          <Typography
+                            sx={{
+                              fontStyle: "italic",
+                              color: theme.color,
+                              width: "auto",
+                              ":hover": { textDecoration: "underline" },
+                            }}
+                            onClick={() => redirect(order.artWorkID)}
+                          >
+                            View
+                          </Typography>
                         </TableCell>
                         {/* userNamereceiver là của người mua */}
                         <TableCell align="left">{order.buyerName}</TableCell>

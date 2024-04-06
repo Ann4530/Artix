@@ -19,7 +19,7 @@ export default function ArtShopDialog(props) {
                 onClose={handleClose}
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Confirm dowload?"}
+                    {"Confirm Dowload?"}
                 </DialogTitle>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

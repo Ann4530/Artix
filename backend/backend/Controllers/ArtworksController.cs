@@ -69,6 +69,7 @@ public class ArtworksController : ControllerBase
 
             // Lấy danh sách Artworks và thêm trạng thái vào mỗi artwork trong danh sách
             var artworkViewModels = await _context.Artworks
+                .Where(artwork => artwork.Purchasable) // Chỉ lấy những artwork có Purchasable là true
                 .Skip(skipCount) // Bỏ qua các bản ghi không cần thiết
                 .Take(pageSize) // Chỉ lấy số lượng bản ghi cần thiết cho trang hiện tại
                 .Select(artwork => new ArtworkViewModel
@@ -100,6 +101,9 @@ public class ArtworksController : ControllerBase
             return StatusCode(500, $"Lỗi không xác định: {ex.Message}");
         }
     }
+
+
+
 
     [HttpGet("GetArtworksWithPaymentStatus/{buyerId}/{artworkId}")]
     public async Task<ActionResult<ArtworkViewModel>> GetArtworksWithPaymentStatus2(int buyerId, int artworkId)

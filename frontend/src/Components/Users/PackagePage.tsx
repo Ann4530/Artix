@@ -8,30 +8,43 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import HomePage from './MainPage/HomePage';
+import { Package } from '../../Interfaces/Package.ts';
+import { GetPackage } from '../../API/PackageAPI/GET.tsx';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function PackagePage() {
-    const { theme,dark } = useContext(ThemeContext)
+    const { theme, dark } = useContext(ThemeContext)
+    const [packageService, SetPackgeService] = useState<Package[]>()
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        const getPackage = async () => {
+            setLoading(true)
+            let packageList: Package[] | undefined = await GetPackage()
+            SetPackgeService(packageList ?? [])
+            setLoading(false)
+        }
+        getPackage()
+    }, [])
+
     const handleClick = () => {
         console.log('clicked')
     }
-    function DefaultCardStyle() {
+
+    const defaultCardStyle = (packageService: Package) => {
         return (
             <Card className='cardDefault' sx={{ backgroundImage: 'url("/images/default.jpg")' }}>
-
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        Creator Pack
+                        {packageService.packageName}
                     </Typography>
                     <Divider sx={{ borderColor: "grey" }} />
                     <Typography variant="body2" color="text.secondary">
-                        This is the creator pack.
-                        The Default Option with no extra benefit.
-                        You can like, follow, comment on every post.
-                        Can only post 5 artworks per month.
+                        {packageService.packageDescription}
                     </Typography>
                     <Divider sx={{ borderColor: "grey" }} />
                     <Typography variant="body2" color="error">
-                        Price: Free
+                        {packageService.packagePrice === 0 ? "Free" : packageService.packagePrice}
                     </Typography>
                 </CardContent>
                 <CardActionArea>
@@ -44,24 +57,20 @@ export default function PackagePage() {
             </Card>
         )
     }
-    function PremiumCardStyle() {
+    const premiumCardStyle = (packageService: Package) => {
         return (
             <Card className='cardPremium' sx={{ backgroundImage: 'url("/images/gold.jpg")' }}><CardContent>
                 <Typography gutterBottom variant="h5" color="gold" component="div">
-                    Artix Pack
+                    {packageService.packageName}
                 </Typography>
                 <Divider sx={{ borderColor: "gold" }} />
                 <div>
                     <Typography variant="body2" color="gold">
-                        This is the Artix pack.
-                        Avatar now decorated with a shiny premium Icon.
-                        All artwork you post will more likely to appear in someone Home Page.
-                        All post you made will containt a premium check.
-                        Can post 30 artworks per month.
+                        {packageService.packageDescription}
                     </Typography>
                     <Divider sx={{ borderColor: "gold" }} />
                     <Typography variant="body2" color="error">
-                        Price: {100 * 1000 + " VND"}
+                        {packageService.packagePrice === 0 ? "Free" : packageService.packagePrice + " VND"}
                     </Typography>
                 </div>
             </CardContent>
@@ -90,20 +99,32 @@ export default function PackagePage() {
                 sx={{
                     color: theme.color,
                     backgroundColor: `rgba(${theme.rgbBackgroundColor},0.97)`,
-                    backgroundImage:dark?'url("/images/darkPackage.jpg")':'url("/images/lightPackage.jpg")',
+                    backgroundImage: dark ? 'url("/images/darkPackage.jpg")' : 'url("/images/lightPackage.jpg")',
                     transition: theme.transition,
                     width: '95%',
                     margin: 'auto',
                     borderRadius: '5px',
                     marginBottom: '15px',
                 }}>
-                <Box sx={{padding:"2% 2% 0% 2%"}}>
-                <Typography variant='h4' color={theme.color} >Account Packages</Typography>
-                <Divider sx={{ borderColor: theme.color }} />
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 100 }}
+                    open={loading}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+                <Box sx={{ padding: "2% 2% 0% 2%" }}>
+                    <Typography variant='h4' color={theme.color} >Account Packages</Typography>
+                    <Divider sx={{ borderColor: theme.color }} />
                 </Box>
                 <Box className="packageContainer">
-                    <DefaultCardStyle />
-                    <PremiumCardStyle />
+                    {packageService?.map((service, index) => {
+                        return (
+                            index === 0 ? defaultCardStyle(service) :
+                                index === 1 ? premiumCardStyle(service) : ""
+                        )
+                    })}
+
+
                 </Box>
             </Box>
         </div>

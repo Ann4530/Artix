@@ -38,6 +38,36 @@ namespace YourNamespace.Controllers
 
             return currentPackage;
         }
+        [HttpGet("ByCreatorID/{creatorid}")]
+        public async Task<ActionResult<CurrentPackage>> GetCurrentPackageByCreatorID(int creatorid)
+        {
+            var currentPackage = await _context.CurrentPackage
+                .FirstOrDefaultAsync(o => o.CreatorID == creatorid);
+
+            if (currentPackage == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(currentPackage);
+        }
+
+
+        [HttpGet("CountCreatorsByPackage")]
+        public async Task<ActionResult<PackageCountDTO>> CountCreatorsByPackage()
+        {
+            var countPackage1 = await _context.CurrentPackage.Where(cp => cp.PackageID == 1).Select(cp => cp.CreatorID).Distinct().CountAsync();
+            var countPackage2 = await _context.CurrentPackage.Where(cp => cp.PackageID == 2).Select(cp => cp.CreatorID).Distinct().CountAsync();
+
+            var result = new PackageCountDTO
+            {
+                CountPackage1 = countPackage1,
+                CountPackage2 = countPackage2
+            };
+
+            return Ok(result);
+        }
+
         // POST: api/CurrentPackage
         [HttpPost]
         public async Task<ActionResult<CurrentPackage>> PostCurrentPackage(CurrentPackage currentPackage)
@@ -100,4 +130,9 @@ namespace YourNamespace.Controllers
 
 
     }
+}
+public class PackageCountDTO
+{
+    public int CountPackage1 { get; set; }
+    public int CountPackage2 { get; set; }
 }

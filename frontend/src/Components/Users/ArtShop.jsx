@@ -115,7 +115,7 @@ function ArtShop() {
                     return (
                         <div class="card1" key={index}>
                             <div class="card1-info">
-                           
+                             
                                 <Card sx={{ width: 280,height:'auto', background: theme.backgroundColor3, display: "flex", flexDirection: "column", justifyContent: "space-between", borderRadius: 1 }}>
                                 <Link to={`../artwordrecomment/artwork/${art?.artworkID}`}>
                                     <CardContent>
@@ -137,15 +137,16 @@ function ArtShop() {
                                             {formatMoney(art?.price)}
                                         </Typography>
                                     </CardContent></Link>
-                                    <CardActions  >
+                                    <CardActions style={{display:'flex',justifyContent:'space-between',margin:'0px 20px 5px'}} >
+                                     
                                     <Link to={`../artwordrecomment/artwork/${art?.artworkID}`}>
-                                        <Button sx={{ minWidth: '30%',margin:'0px 50px 5px 15px' }} variant="contained" size="small" title='Detail'><More /></Button></Link>
+                                        <Button sx={{ minWidth: '75px' }}  variant="contained" size="small" title='Detail'><More /></Button></Link>
                                         {/* {i?.purchasable && <Button sx={{ minWidth: 0 }} variant="contained" size="small" title='Buy'><Shop /></Button>} */}
                                         {
                                             art?.status === true
                                            
                                             &&
-                                            <Button sx={{ minWidth: '30%',marginBottom:'5px' }}
+                                            <Button sx={{ minWidth: '35%' }}
                                                 variant="contained" size="small" title='Dowload' onClick={() => handleDownload(`img-${index}`)}>
                                                 <Download />
                                             </Button>}
