@@ -101,9 +101,15 @@ public class PackageController : ControllerBase
     [HttpGet("Callback")]
     public async Task<IActionResult> PaymentCallbackPackage()
     {
-        // Xử lý phản hồi từ VNPay
         var response = _vnPayService.PaymentExecute(Request.Query);
-        int packageId = int.Parse(Request.Query["PackageId"]);
+        int packageId = int.Parse(HttpContext.Request.Query["PackageId"]);
+
+        // Kiểm tra response
+        if (response == null)
+        {
+            // Nếu response là null, điều này có thể dẫn đến lỗi
+            return Redirect("~/fail-page");
+        }
 
         // Lấy thông tin gói package từ cơ sở dữ liệu
         var package = await _context.CurrentPackage.FindAsync(packageId);
@@ -116,7 +122,6 @@ public class PackageController : ControllerBase
         if (response.Success && response.VnPayResponseCode == "00")
         {
             // Nếu thanh toán thành công, cập nhật trạng thái của gói package
-           
             _context.CurrentPackage.Update(package);
             await _context.SaveChangesAsync();
 
@@ -128,13 +133,13 @@ public class PackageController : ControllerBase
         {
             // Nếu thanh toán không thành công, xử lý phản hồi tương ứng
             // (ví dụ: gửi email thông báo, cập nhật trạng thái của gói package, v.v.)
-            
             _context.CurrentPackage.Update(package);
             await _context.SaveChangesAsync();
 
             return Redirect("http://localhost:3000/characters/package");
         }
     }
+
 
 
 

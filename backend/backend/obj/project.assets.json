@@ -3897,11 +3897,16 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "/Users/hendrix/.nuget/packages/": {}
+=======
+    "C:\\Users\\bolic\\.nuget\\packages\\": {}
+>>>>>>> Main
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "/Volumes/Ze_Data/Document/ReactProjects/SWP391-Artix/backend/backend/backend.csproj",
       "projectName": "backend",
       "projectPath": "/Volumes/Ze_Data/Document/ReactProjects/SWP391-Artix/backend/backend/backend.csproj",
@@ -3910,6 +3915,17 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/hendrix/.nuget/NuGet/NuGet.Config"
+=======
+      "projectUniqueName": "D:\\FPT_Learning\\SWP391\\SWP391-Artix\\backend\\backend\\backend.csproj",
+      "projectName": "backend",
+      "projectPath": "D:\\FPT_Learning\\SWP391\\SWP391-Artix\\backend\\backend\\backend.csproj",
+      "packagesPath": "C:\\Users\\bolic\\.nuget\\packages\\",
+      "outputPath": "D:\\FPT_Learning\\SWP391\\SWP391-Artix\\backend\\backend\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\bolic\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+>>>>>>> Main
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -4028,6 +4044,12 @@
     }
   },
   "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file D:\\FPT_Learning\\SWP391\\SWP391-Artix\\backend\\backend\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    },
     {
       "code": "NU1701",
       "level": "Warning",
