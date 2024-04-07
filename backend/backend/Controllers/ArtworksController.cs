@@ -21,8 +21,7 @@ public class ArtworksController : ControllerBase
     }
 
     // GET: api/artworks
-
-    [HttpGet]  // Lấy 5 artwork 
+    [HttpGet]
     public async Task<IActionResult> GetArtworks()
     {
         var artworks = await _context.Artworks
@@ -58,13 +57,8 @@ public class ArtworksController : ControllerBase
     {
         try
         {
-            // Tính toán số lượng bản ghi cần bỏ qua (skip)
             int skipCount = (pageNumber - 1) * pageSize;
-
-            // Lấy tổng số bản ghi
             int totalRecords = await _context.Artworks.CountAsync();
-
-            // Tính toán tổng số trang
             int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
 
             // Lấy danh sách Artworks và thêm trạng thái vào mỗi artwork trong danh sách
@@ -87,7 +81,7 @@ public class ArtworksController : ControllerBase
                 })
                 .ToListAsync();
 
-            // Tạo đối tượng chứa cả danh sách artwork và thông tin về phân trang
+            // Tạo đối tượng chứa artwork và info về phân trang
             var response = new ArtworksResponse
             {
                 TotalPages = totalPages,
@@ -117,16 +111,13 @@ public class ArtworksController : ControllerBase
             {
                 return NotFound($"Không tìm thấy Artwork có ID {artworkId}");
             }
-
             // Kiểm tra trạng thái thanh toán của Artwork cho buyer với buyerId
             bool isPaid = await _context.OrderDetail.AnyAsync(od => od.ArtWorkID == artworkId && od.Order.BuyerID == buyerId);
-
             // Tạo đối tượng ArtworkViewModel với thông tin từ Artwork và trạng thái thanh toán
             var artworkViewModel = new ArtworkViewModel
             {
                 Status = isPaid
             };
-
             return artworkViewModel;
         }
         catch (Exception ex)
@@ -218,7 +209,6 @@ public class ArtworksController : ControllerBase
         {
             return NotFound();
         }
-
         return Ok(recentArtworks);
     }
 
