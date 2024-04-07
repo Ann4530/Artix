@@ -4,7 +4,7 @@ import { Creator } from '../../Interfaces/UserInterface';
 
 
 const accounturl = 'https://localhost:7233/api/Account'
-const creatorurl = 'https://localhost:7233/api/Creator/NotProfile/NotBackgroundByAccountID/'
+const creatorurl = 'https://localhost:7233/api/Creator/'
 const roleurl = 'https://localhost:7233/api/Role/'
 
 type initialUser = {
