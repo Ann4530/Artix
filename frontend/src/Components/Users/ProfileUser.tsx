@@ -98,8 +98,11 @@ export default function ProfileUser() {
 
 
   const handleClick = () => {
+    // MISMATCH-GAP-01: Không kiểm tra đăng nhập, user chưa login vẫn follow/unfollow bình thường.
     setIsFollowing(!isFollowing)
   }
+
+  const canShowFollowButton = userInSession.creatorID === user?.creatorID || userInSession.creatorID !== user?.creatorID
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -371,14 +374,16 @@ export default function ProfileUser() {
               </div> </div>
 
             <div className='buttonheaderuser'  >
-              {isFollowing == true && (
+              {canShowFollowButton && isFollowing == true && (
                 <Button className='follow' style={{ width: '120px', height: '40px' }} variant="contained" href="#contained-buttons" onClick={() => handleClick()}>
                   + Follow
                 </Button>)}
-              {isFollowing == false && (
+              {canShowFollowButton && isFollowing == false && (
+                // MISMATCH-GAP-02: Khi chưa follow vẫn hiển thị trạng thái Following thay vì nút Theo Dõi.
                 <Button className='following' style={{ width: '120px', height: '40px' }} variant="contained" href="#contained-buttons" onClick={() => handleClick()}>
                   Following
                 </Button>)}
+              {/* MISMATCH-GAP-03: Cho phép hiện nút follow cả khi người dùng đang xem chính profile của mình. */}
 
             </div>
           </CardContent>

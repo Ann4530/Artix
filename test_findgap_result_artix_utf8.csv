@@ -26,3 +26,21 @@ STT,Use Case,Gap Categories,Expected Gap,Actual Gap,Token,Recall,Precision,F1 Sc
         ""cost_usd"": 0.2033
       }
     },"
+4,UC-04: Test,Mixed,"3 missing, 3 surplus","Findgap tra ra MATCH: 4, MISMATCH: 8, MISSING: 4, SURPLUS: 8; du 14 gap so voi expected, chu yeu over-detect va drift o ca login flow va artwork listing flow",44477,100%,30%,46.15%,300.30s,N/A,N/A,$0.49,"MATCH: 0, MISMATCH: 0, MISSING: 3, SURPLUS: 3","MATCH: 4, MISMATCH: 8, MISSING: 4, SURPLUS: 8","      ""total"": {
+        ""input_tokens"": 22067,
+        ""output_tokens"": 22410,
+        ""cache_creation_tokens"": 22250,
+        ""cache_read_tokens"": 0,
+        ""duration_s"": 300.3,
+        ""cost_usd"": 0.4858
+      }
+    },"
+5,UC-05: uc05,Missing,"1 mismatch, 1 missing, 2 surplus","Findgap tra ra MATCH: 0, MISMATCH: 0, MISSING: 12, SURPLUS: 0; du 8 gap so voi expected, chu yeu bo sot phan loai mismatch/surplus va over-detect missing o comment flow",22849,25%,8%,12.50%,116.59s,N/A,N/A,$0.27,"MATCH: 0, MISMATCH: 1, MISSING: 1, SURPLUS: 2","MATCH: 0, MISMATCH: 0, MISSING: 12, SURPLUS: 0","      ""total"": {
+        ""input_tokens"": 12674,
+        ""output_tokens"": 10175,
+        ""cache_creation_tokens"": 22301,
+        ""cache_read_tokens"": 0,
+        ""duration_s"": 116.59,
+        ""cost_usd"": 0.2743
+      }
+    },"
