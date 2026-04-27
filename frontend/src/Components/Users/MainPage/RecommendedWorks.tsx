@@ -48,6 +48,8 @@ export default function RecommendedWords({ artworkList, user }) {
                     alt={work.artworkName}
                     loading="lazy"
                   />
+                  {/* MISMATCH-GAP-03: intentionally show artwork name only and omit likes/author/price details required by UC03. */}
+                  <Typography variant='body2'>{work.artworkName}</Typography>
                 </ImageListItem>
               </CardActionArea>
             </Link>

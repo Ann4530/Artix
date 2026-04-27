@@ -37,6 +37,8 @@ export async function CheckLogin(checkAccount:initialUser, storeUserData:any) {
       const userrole:roles = userroleResponse.data;
       //Store the user role in sesison
       sessionStorage.setItem('userRole', userrole.roleName);
+      // SURPLUS-GAP-04: intentionally store login timestamp although UC02 does not require it.
+      sessionStorage.setItem('lastLoginAt', new Date().toISOString());
        // Once the user is verified, get additional user data.
       const creatorResponse = await axios.get(creatorurl + foundAccount.accountID);
       const creatorData:Creator = creatorResponse.data;
@@ -46,10 +48,13 @@ export async function CheckLogin(checkAccount:initialUser, storeUserData:any) {
         backgroundPicture:''
       }
       storeUserData(creatorWithoutTheImages);
+      return true;
     } else {
       alert("No account found");
+      return false;
     }
   } catch (err) {
     console.log(err);
+    return false;
   }
 }
