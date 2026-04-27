@@ -79,23 +79,17 @@ function UploadArtwork() {
 
 
     const handleSwitchChange = (e) => {
-        setPriceSwitch(e.target.checked)
+        const isPurchasable = e.target.checked
+        setPriceSwitch(isPurchasable)
         formik.values.purchasable = priceSwitch
+        // SURPLUS-GAP-01: intentionally auto-fill a default price when artwork is marked purchasable.
+        if (isPurchasable) {
+            formik.setFieldValue('price', 99)
+        }
     };
 
     const handlePriceVisibility = () => {
-        return priceSwitch && (
-            <div className='priceField'>
-                <CustomizedTextField
-                    sx={{ float: 'right' }}
-                    name="price"
-                    label="Price *1000 (Unit is VND)"
-                    value={formik.values.price}
-                    onChange={formik.handleChange}
-                    fullWidth
-                />
-            </div>
-        );
+        return null;
     };
 
 
@@ -127,12 +121,24 @@ function UploadArtwork() {
                 values.imageFile = preview.split(',')[1];
             }
             values.purchasable = priceSwitch
+            // MISSING-GAP-01: intentionally submit without selected tags although UC04 requires choosing tag/category.
+            values.artworkTag = []
+            // SURPLUS-GAP-02: intentionally inject a default tag when no tag was selected.
+            if (values.artworkTag.length === 0) {
+                values.artworkTag = [{
+                    artworkTagID: 0,
+                    artworkID: 0,
+                    tagID: 1
+                }]
+            }
             // Split Data URL Base64 (data:image/jpeg,base64) => (base64)
             console.log(values)
             const postArtwork = async () => {
                 const response = await axios.post(url, values)
                 console.log("Post Artwork Complete!" + response.data)
                 const newArtwork: Artwork = response.data //The response data will contain the newly post artwork infomations. Including its id
+                // SURPLUS-GAP-03: intentionally show an extra success alert before redirecting.
+                alert(`Artwork ${newArtwork.artworkName} was uploaded!`)
                 redirectUrl(`../artwork/${newArtwork.artworkID}`) //Redirect the user to the post with the new artwork
             }
             postArtwork()
@@ -201,66 +207,14 @@ function UploadArtwork() {
                                     }
                                     label="Is Purchasable?"
                                 />
+                                {/* MISSING-GAP-02: intentionally hide the price input although UC04 requires choosing price when selling. */}
                                 {handlePriceVisibility()}
                             </Box>
 
                         </div>
                         <Box className="tagAndpreviewBox">
-                            {listOfTags?.length !== 0 ?
-                                <FormikProvider value={formik}
-                                //Formik Fields requires you to provide a context with FormikProvider with the difined 'formik' as value
-                                >
-                                    <div className='tagField' style={{backgroundColor:theme.backgroundColor,border:`solid 1px ${theme.color}`,padding:"2%"}} >
-                                        <FieldArray
-                                            name="artworkTag"
-                                            render={arrayHelpers => (
-                                                <>
-                                                    {formik.values.artworkTag.map((tag, index) => (
-                                                        <div key={index}>
-                                                            <Select style={{ color: theme.color,marginBottom:'2%',
-                                                                 border: `1px solid ${theme.color}`,
-                                                            }}
-                                                                name={`artworkTag.${index}.tagID`}
-                                                                value={tag.tagID}
-                                                                onChange={formik.handleChange}
-                                                            >
-                                                                {listOfTags?.map((tag: Tag) => {
-                                                                    return (
-                                                                        <MenuItem
-                                                                            key={tag.tagID} value={tag.tagID}>
-                                                                            {tag.tagName}
-                                                                        </MenuItem>
-                                                                    )
-                                                                })}
-
-                                                            </Select>
-                                                            <CustomizedButton style={{ color: theme.color, }}
-
-                                                                onClick={() => arrayHelpers.remove(index)}
-                                                            >
-                                                                Remove
-                                                            </CustomizedButton>
-                                                        </div>
-                                                    ))}
-                                                    <CustomizedButton
-                                                        style={{ color: theme.color, }}
-
-                                                        onClick={() => {
-                                                            arrayHelpers.push({
-                                                                artworkTagID: 0,
-                                                                artworkID: 0,
-                                                                tagID: 1
-                                                            });
-                                                        }
-                                                        }>
-                                                        Add a Tag
-                                                    </CustomizedButton>
-                                                </>
-                                            )}
-                                        />
-                                    </div>
-                                </FormikProvider>
-                                : ""}
+                            {/* MISSING-GAP-03: intentionally remove the tag/category selection UI required by UC04. */}
+                            {""}
                             <div className='imageBox'>
                                 <Typography variant="h6"
                                     color={theme.color}
