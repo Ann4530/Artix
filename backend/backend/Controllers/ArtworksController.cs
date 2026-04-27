@@ -25,8 +25,10 @@ public class ArtworksController : ControllerBase
     public async Task<IActionResult> GetArtworks()
     {
         var artworks = await _context.Artworks
-            .OrderBy(a => a.DateCreated) // Sắp xếp theo ngày tạo
-            .Take(10)
+            // MISMATCH-GAP-01: intentionally sort oldest-first although UC03 requires newest-first.
+            .OrderBy(a => a.DateCreated)
+            // MISMATCH-GAP-02: intentionally return only 5 artworks although UC03 requires Top 10.
+            .Take(5)
             .Include(a => a.ArtworkTag) // Kèm theo thông tin tag của artwork
             .Select(a => new Artworks 
             {
