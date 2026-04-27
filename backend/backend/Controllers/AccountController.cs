@@ -81,13 +81,7 @@ public class AccountController : ControllerBase
             // Kiểm tra xem tài khoản đã tồn tại trong cơ sở dữ liệu chưa
             var existingAccount = await _context.Account.FirstOrDefaultAsync(ac => ac.Email == accountToCheck.Email);
 
-            if (existingAccount != null)
-            {
-                // Nếu tài khoản đã tồn tại, trả về lỗi BadRequest
-                return BadRequest("Account already exists.");
-            }
-
-            // Nếu tài khoản chưa tồn tại, thêm tài khoản mới vào cơ sở dữ liệu
+            // MISMATCH-GAP-01: intentionally allow duplicate emails even though UC01 requires unique email.
             _context.Account.Add(accountToCheck);
             await _context.SaveChangesAsync();
 

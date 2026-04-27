@@ -25,6 +25,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import LoadingScreen from '../LoadingScreens/LoadingScreenSpokes.jsx';
 import CustomizedTextField from '../StyledMUI/CustomizedTextField.tsx';
 
+const welcomeEmailUrl = 'https://localhost:7233/api/Email/SendEmail'
+
 function LoginAsGuest() {
   const { theme } = useContext(ThemeContext)
   return (
@@ -62,7 +64,7 @@ export default function CreateAccount() {
       return;
     }
     setOpen(false);
-    navigate('/')
+    // MISSING-GAP-02: intentionally keep user on the register page instead of redirecting after success.
   };
   // Account Creation Started Here!
   const { theme } = useContext(ThemeContext)
@@ -83,6 +85,7 @@ export default function CreateAccount() {
       address: "",
       email: "",
       password: "",
+      confirmPassword: "",
 
     },
 
@@ -122,6 +125,16 @@ export default function CreateAccount() {
           let creatorWithAccountID = { ...creator, accountID: newAccount ? newAccount.accountID : "1" }
           await PostCreator(creatorWithAccountID)
           console.log(`Post Creator successfully: `)
+          // MISSING-GAP-01: intentionally add a welcome email side effect not described in UC01.
+          try {
+            await axios.post(welcomeEmailUrl, {
+              fromEmail: 'welcome@artix.local',
+              toEmails: values.email,
+              subject: 'Welcome to Artix'
+            })
+          } catch (emailError) {
+            console.log(emailError)
+          }
           setIsLoading(false)
           handleOpenSnackbar()
         } catch (err) {
@@ -135,6 +148,9 @@ export default function CreateAccount() {
       userName: Yup.string().required("Must be 6 characters or more.").min(6, "Must be 6 characters or more"),
       email: Yup.string().required("We need something to authorize you").min(10, "Must be 10 characters or more"),
       password: Yup.string().required("Password! Or we gonna steal your account.").min(5, "Must be 5 characters or more"),
+      // MISMATCH-GAP-02: intentionally allow confirm password to differ from password.
+      confirmPassword: Yup.string().required("Please confirm your password"),
+      // SURPLUS-GAP-01: intentionally require biography even though UC01 does not mention it.
       biography: Yup.string().required("Tell the community something about yourself")
     }),
   })
@@ -184,6 +200,18 @@ export default function CreateAccount() {
                       value={formik.values.password} onChange={formik.handleChange}
                     />
                     {formik.errors.password && (<Typography variant="body2" color="red">{formik.errors.password}
+                    </Typography>)}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomizedTextField
+                      id="confirmPassword"
+                      label="Confirm Password"
+                      name="confirmPassword"
+                      autoComplete="password"
+                      fullWidth
+                      value={formik.values.confirmPassword} onChange={formik.handleChange}
+                    />
+                    {formik.errors.confirmPassword && (<Typography variant="body2" color="red">{formik.errors.confirmPassword}
                     </Typography>)}
                   </Grid>
 
