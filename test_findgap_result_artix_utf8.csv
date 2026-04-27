@@ -8,3 +8,21 @@ STT,Use Case,Gap Categories,Expected Gap,Actual Gap,Token,Recall,Precision,F1 Sc
         ""cost_usd"": 0.3153
       }
     },"
+2,UC-02: uc02,Mixed,"4 surplus","Findgap tra ra MATCH: 4, MISMATCH: 5, MISSING: 1, SURPLUS: 6; du 8 gap so voi expected, chu yeu over-detect va drift o FE/BE authentication flow",27249,100%,33%,50.00%,163.80s,N/A,N/A,$0.32,"MATCH: 0, MISMATCH: 0, MISSING: 0, SURPLUS: 4","MATCH: 4, MISMATCH: 5, MISSING: 1, SURPLUS: 6","      ""total"": {
+        ""input_tokens"": 13876,
+        ""output_tokens"": 13373,
+        ""cache_creation_tokens"": 20801,
+        ""cache_read_tokens"": 0,
+        ""duration_s"": 163.8,
+        ""cost_usd"": 0.3202
+      }
+    },"
+3,UC-03: uc02,Mixed,"3 mismatch","Findgap tra ra MATCH: 3, MISMATCH: 6, MISSING: 1, SURPLUS: 5; du 9 gap so voi expected, chu yeu over-detect va drift o FE/BE authentication flow",25906,100%,25%,40.00%,116.32s,N/A,N/A,$0.20,"MATCH: 0, MISMATCH: 3, MISSING: 0, SURPLUS: 0","MATCH: 3, MISMATCH: 6, MISSING: 1, SURPLUS: 5","      ""total"": {
+        ""input_tokens"": 15441,
+        ""output_tokens"": 10465,
+        ""cache_creation_tokens"": 0,
+        ""cache_read_tokens"": 0,
+        ""duration_s"": 116.32,
+        ""cost_usd"": 0.2033
+      }
+    },"
