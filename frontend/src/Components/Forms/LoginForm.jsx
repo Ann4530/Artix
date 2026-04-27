@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import './FormCSS/LoginForm.css'
 import LoginWithGoogle from '../../Login/Google/LoginWithGoogle';
 import Divider from '@mui/material/Divider';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import { Link } from 'react-router-dom';
 import { CheckLogin } from '../../Login/Norm/NormalLogin.tsx'
 import { useFormik } from 'formik'
@@ -26,6 +28,7 @@ export default function LoginForm({ disableOutsideClick, handleClick, backdrop, 
       initialValues: {
         email: "",
         password: "",
+        autoLoginNextTime: false,
       },
       validationSchema: Yup.object().shape({
         email: Yup.string().email('Are you sure this is a REAL email address?').required("Hey! Where's the email, pal?"),
@@ -34,7 +37,17 @@ export default function LoginForm({ disableOutsideClick, handleClick, backdrop, 
       onSubmit: async (values) => {
         try {
           setIsloading(true)
-          await CheckLogin(values, storeUserData)
+          const isAuthenticated = await CheckLogin(values, storeUserData)
+          if (!isAuthenticated) {
+            setIsloading(false)
+            return
+          }
+          // SURPLUS-GAP-01: intentionally store last login email although UC02 does not require it.
+          localStorage.setItem('lastLoginEmail', values.email)
+          // SURPLUS-GAP-02: intentionally persist an auto-login preference outside UC02.
+          localStorage.setItem('autoLoginNextTime', JSON.stringify(values.autoLoginNextTime))
+          // SURPLUS-GAP-03: intentionally show an extra success alert before redirecting.
+          alert(`Welcome back, ${values.email}!`)
           const sessionRole = sessionStorage.getItem('userRole');
           setIsloading(false)
           // await to ensure the CheckLogin finish its task before running the navigate action
@@ -117,6 +130,12 @@ export default function LoginForm({ disableOutsideClick, handleClick, backdrop, 
                   onChange={formik.handleChange}
                   error={formik.touched.password && Boolean(formik.errors.password)}
                   helperText={formik.touched.password && formik.errors.password}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox name="autoLoginNextTime" checked={formik.values.autoLoginNextTime} onChange={formik.handleChange} />}
+                  label="Auto login next time"
                 />
               </Grid>
               <Grid item xs={12}>

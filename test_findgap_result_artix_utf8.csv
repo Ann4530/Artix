@@ -1,0 +1,2 @@
+﻿STT,Usecase,Gap Categories,Expected Gap,Actual Gap,Token,Recall,Precision,F1 Score,Latency,Security,Stability,Cost,Expected Output,Actual Output
+1,UC-01: uc01,Missing,"2 mismatch, 2 missing, 1 surplus","AI phát hiện đúng 2 mismatch và 1 surplus, nhưng báo thừa missing: actual có 6 missing so với expected 2 missing; tổng thể over-report các bước FE chưa cài đặt.","40,919",100.00%,55.56%,71.43%,118.62,Không phát hiện,N/A,$0.32,"MATCH: 1, MISMATCH: 2, MISSING: 2, SURPLUS: 1","MATCH: 2, MISMATCH: 2, MISSING: 6, SURPLUS: 1"
